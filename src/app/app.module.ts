@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LookbooksComponent } from './pages/lookbooks/lookbooks.component';
 import { LookbookComponent } from './pages/lookbook/lookbook.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { LookbookComponent } from './pages/lookbook/lookbook.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
