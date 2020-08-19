@@ -1,15 +1,12 @@
 
 <mat-card color="primary" style="text-align: center;">
-<mat-card-title color="primary">{{ lookbook.name }}</mat-card-title>
-<mat-card-subtitle>{{ lookbook.id }}</mat-card-subtitle>
-<mat-card-subtitle>{{ lookbook.author }}</mat-card-subtitle>
-<mat-card-content>
-    <textarea matInput></textarea>
-</mat-card-content>
-<mat-card-footer>
-    <button mat-raised-button color="accent" routerLink="/">SAVE</button>
-</mat-card-footer>
+    <mat-card-title color="primary">{{ lookbook.name }}</mat-card-title>
+    <mat-card-subtitle>{{ lookbook.id }}</mat-card-subtitle>
+    <mat-card-subtitle>{{ lookbook.author }}</mat-card-subtitle>
+    <mat-card-content>
+        <textarea matInput></textarea>
+    </mat-card-content>
+    <mat-card-footer>
+        <button mat-raised-button color="accent" routerLink="/lookbooks">SAVE</button>
+    </mat-card-footer>
 </mat-card>
-
-
-
