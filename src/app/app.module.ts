@@ -17,6 +17,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { LookbooksComponent } from './pages/lookbooks/lookbooks.component';
 import { LookbookComponent } from './pages/lookbook/lookbook.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoadingComponent } from './components/loading/loading.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppComponent,
     LoginComponent,
     LookbooksComponent,
-    LookbookComponent
+    LookbookComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
