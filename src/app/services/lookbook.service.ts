@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Lookbook } from '../types/types';
 
 const lookbook1: Lookbook = {
@@ -39,4 +40,7 @@ export class LookbookService {
     })[0]);
   }
 
+  mockPageLoad(loadingTime: number): Observable<boolean>{
+    return(of(true).pipe(delay(loadingTime)));
+  }
 }

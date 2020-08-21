@@ -9,6 +9,9 @@ import { Lookbook } from '../../types/types';
 })
 export class LookbooksComponent implements OnInit {
   lookbooks: Lookbook[];
+  mockPageLoadTimeout: number = 1500;
+  messageFromLoader: string = "SUCCESS";
+  loaded: boolean = false;
 
   constructor( private lookbookService: LookbookService ) { }
 
@@ -16,6 +19,9 @@ export class LookbooksComponent implements OnInit {
     this.lookbookService.getLookbooks().subscribe((data: Lookbook[])=>{
       this.lookbooks = data;
     });
+    this.lookbookService.mockPageLoad(this.mockPageLoadTimeout).subscribe((response: boolean)=>{
+      this.loaded = response;
+    })
   }
 
 }
