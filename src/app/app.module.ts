@@ -9,6 +9,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar'; 
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +19,7 @@ import { LookbooksComponent } from './pages/lookbooks/lookbooks.component';
 import { LookbookComponent } from './pages/lookbook/lookbook.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingComponent } from './components/loading/loading.component';
+import { EditComponent } from './page/edit/edit.component';
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     LoginComponent,
     LookbooksComponent,
     LookbookComponent,
-    LoadingComponent
+    LoadingComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     MatButtonModule,
     MatToolbarModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
