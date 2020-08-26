@@ -15,6 +15,7 @@ export class LookbooksComponent implements OnInit {
   mockPageLoadTimeout: number = 1500;
   messageFromLoader: string = "SUCCESS";
   loaded: boolean = false;
+  tableLoaded: boolean = false;
 
   constructor( private lookbookService: LookbookService ) { }
 
@@ -25,6 +26,7 @@ export class LookbooksComponent implements OnInit {
     this.lookbooks.paginator = this.paginator;
     this.lookbookService.getLookbooks().subscribe((data: Lookbook[])=>{
       this.lookbooks = new MatTableDataSource(data);
+      this.tableLoaded = true;
     });
     this.lookbookService.mockPageLoad(this.mockPageLoadTimeout).subscribe((response: boolean)=>{
       this.loaded = response;
