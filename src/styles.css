@@ -4,7 +4,7 @@
     "~@angular/material/prebuilt-themes/pink-bluegrey.css"
     "~@angular/material/prebuilt-themes/purple-green.css"
 */
-@import "~@angular/material/prebuilt-themes/purple-green.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 
 html, body { height: 100%; }
@@ -16,3 +16,4 @@ body {
  .my-card {
     text-align: center;
 }
+

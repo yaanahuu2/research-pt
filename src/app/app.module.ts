@@ -12,6 +12,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -20,6 +21,7 @@ import { LookbookComponent } from './pages/lookbook/lookbook.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingComponent } from './components/loading/loading.component';
 import { EditComponent } from './page/edit/edit.component';
+
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { EditComponent } from './page/edit/edit.component';
     MatToolbarModule,
     MatDividerModule,
     MatListModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
