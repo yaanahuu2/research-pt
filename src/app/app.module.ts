@@ -10,6 +10,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -47,7 +48,7 @@ import { EditComponent } from './page/edit/edit.component';
     MatDividerModule,
     MatListModule,
     MatProgressSpinnerModule,
-
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

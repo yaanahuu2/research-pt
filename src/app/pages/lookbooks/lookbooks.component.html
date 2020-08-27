@@ -1,9 +1,45 @@
 
-<mat-card class="my-card" style="display: block; text-align: center;">
+<!-- <mat-card class="my-card" style="display: block; text-align: center;">
     <div class="container" style="display: inline-block; text-align: center;">
         <button mat-raised-button color="accent" *ngFor="let lookbook of lookbooks" [routerLink]="['/lookbook', lookbook.id]">{{ lookbook.name }}</button>
     </div>
 </mat-card>
+<div>
+    MESSAGE: 
+    <p *ngIf="loaded">
+        {{ messageFromLoader }}
+    </p>
+</div>
 
 <!-- TEST -->
 
+-->
+
+<div class="mat-elevation-z8">
+    <table *ngIf="tableLoaded" mat-table [dataSource]="lookbooks">
+  
+      <!-- Id Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> Id </th>
+        <td mat-cell *matCellDef="let element" [routerLink]="['/lookbook', element.id]"> {{element.id}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element" [routerLink]="['/lookbook', element.id]"> {{element.name}} </td>
+      </ng-container>
+  
+      <!-- Weight Column -->
+      <ng-container matColumnDef="author">
+        <th mat-header-cell *matHeaderCellDef> Author </th>
+        <td mat-cell *matCellDef="let element" [routerLink]="['/lookbook', element.id]"> {{element.author}} </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  
