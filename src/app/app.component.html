@@ -1,1 +1,12 @@
-<router-outlet></router-outlet>
+<div [class.alternative]="otherTheme">
+  <div class="mat-app-background">
+    <router-outlet></router-outlet>
+
+    <section class="example-section">
+        <button (click)="changeTheme()" mat-raised-button color="primary">Change Theme 1111</button>
+     </section>
+    </div>
+</div>
+
+
+

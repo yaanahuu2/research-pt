@@ -18,3 +18,11 @@
     border-width: 10px;
     background: white;
 }
+
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+    padding-left: 20px;
+}

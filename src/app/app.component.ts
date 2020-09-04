@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'research-pt';
+
+  otherTheme: boolean = false;
+
+  changeTheme() {
+    this.otherTheme = !this.otherTheme;
+  }
 }
+
