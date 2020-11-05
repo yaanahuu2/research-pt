@@ -11,9 +11,6 @@
     <h2>Lookbook Prototype</h2>
 </mat-toolbar>
 
-
-
-
 <mat-card class="my-card">
     <mat-card-content >
        <form class="my-form" >
@@ -29,15 +26,14 @@
     </mat-card-content>
     <mat-card-actions>
        <button mat-raised-button color="accent" routerLink="/lookbooks">LOGIN</button>
+       <button mat-raised-button color="accent" routerLink="/map">Placenames Map</button>
     </mat-card-actions>
  </mat-card>
 
-
-
-
-
 <div class="spinner-container">
-   <div class="spinner-background"> <img src="https://datsan.openbroadcaster.pro/download.php?media_id=3033" width="45px"></div>
+   <div class="spinner-background">
+     <img src="https://datsan.openbroadcaster.pro/download.php?media_id=3033" width="45px">
+   </div>
    <mat-progress-spinner #spinner
        color="primary"
        mode="indeterminate"
@@ -51,11 +47,4 @@
 <!--
  <app-loading></app-loading>
 
---> 
-
-
-
-
-
-
-
+-->
