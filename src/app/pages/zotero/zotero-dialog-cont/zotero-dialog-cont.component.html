@@ -1,0 +1,24 @@
+<mat-icon aria-hidden="false" aria-label="Close" mat-dialog-close>close</mat-icon>
+<div mat-dialog-content>
+  <!-- <img class="dialog_zotero_img" [src]="item.data.date" width="300px" height="300px" /> -->
+  <div class="dialog_zotero_meta">
+    <div class="item">
+      <h3>{{ item.data.title }}</h3>
+      <div class="itemDetail" *ngIf="item.data.date">Year: {{ item.data.date }}</div>
+      <div class="itemDetail">Item Type: {{ item.data.itemType }}</div>
+      <div class="itemDetail" *ngIf="item.data.tags.length > 0">Tags:
+        <ul class="tagslist">
+          <ng-container *ngFor="let tags of item.data.tags">
+            <li>{{ tags.tag }}</li>
+          </ng-container>
+        </ul>
+      </div>
+    </div><!-- /item -->
+  </div><!-- /dialog_zotero_meta -->
+  <div class="attachments">
+    <app-file-list [key]='item.data.key' [childItems]="item.childItems"></app-file-list>
+  </div><!-- /attachments -->
+  <div class="notes">
+    <app-notes [formType]='formType' [key]='item.data.key' [childItems]="item.childItems"></app-notes>
+  </div><!-- /notes -->
+</div><!-- /mat-dialog-content -->

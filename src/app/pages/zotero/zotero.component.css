@@ -1,0 +1,52 @@
+h3 {
+  margin-bottom: .3em;
+}
+
+button {
+  margin: .3em;
+}
+
+.collections-nav {
+  width: 35%;
+  float: left;
+  position: relative;
+}
+
+.collection-items {
+  width: 55%;
+  margin-left: 1em;
+  float: left;
+  position: relative;
+}
+
+.progress-bar {
+  margin-top: 1em;
+  padding: 2em;
+}
+
+.item {
+  margin: .5em 0;
+}
+
+.itemTitle {
+  cursor: pointer;
+}
+
+.itemDetail {
+  margin-bottom: .5em;
+}
+
+.tagslist {
+  display: inline;
+  padding-inline-start: 2px;
+}
+
+.tagslist li {
+  display: inline-block;
+  list-style-type: none;
+  padding: .2em .5em;
+  margin-right: .5em;
+  margin-bottom: .2em;
+  background-color: #027167;
+  border-radius: 20px;
+}

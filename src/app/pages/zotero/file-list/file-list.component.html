@@ -1,0 +1,21 @@
+<div class="files_list">
+  <ul>
+    <li class="file_card" *ngFor="let attachment of attachments">
+      <mat-card (click)="getAttachmentFile(attachment.key)">
+        <mat-card-header>
+          <mat-card-title>Attachment</mat-card-title>
+        </mat-card-header>
+        <ng-container *ngIf="attachment.is_image; else elseBlock">
+          <img mat-card-image [src]="attachment.url">
+        </ng-container>
+        <ng-template #elseBlock>
+          <mat-icon aria-hidden="false" aria-label="Document">article</mat-icon>
+        </ng-template>
+        <mat-card-content>
+          {{ attachment.filename }}
+        </mat-card-content>
+      </mat-card>
+    </li>
+  </ul>
+  <div class="spacer" style="height: 1px; clear: both">&nbsp;</div>
+</div><!-- /filesList -->

@@ -1,0 +1,22 @@
+li {
+  list-style-type: none;
+  margin: .2em;
+  width: 30%;
+  display: inline-block;
+  vertical-align:top;
+}
+
+.file_card {
+  width: 200px;
+  margin: 6px;
+  cursor: pointer;
+}
+
+.mat-card-image {
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.mat-card {
+  background-color: #6f6f6f;
+}

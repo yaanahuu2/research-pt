@@ -1,0 +1,25 @@
+<h1>Tsilhqot'in War Research Album</h1>
+<button mat-raised-button color="accent" type="button" (click)="goBack()">Back</button>
+<div class="album_selections">
+  <ul>
+    <li class="itemsel" *ngFor="let sel of itemSelections">
+      <img [src]="sel.thumb_url">
+    </li>
+  </ul>
+</div><!-- /album_selections -->
+<div class="album_items_list">
+  <ul>
+    <li class="album_card" *ngFor="let albumItem of albumItems">
+      <mat-card (click)="selectItem(albumItem)">
+        <mat-card-header>
+          <mat-card-title>{{ albumItem.name }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="albumItem.thumb_url">
+        <mat-card-content>
+          Album Item
+        </mat-card-content>
+      </mat-card>
+    </li>
+  </ul>
+  <div class="spacer" style="height: 1px; clear: both">&nbsp;</div>
+</div><!-- /filesList -->

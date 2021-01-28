@@ -1,0 +1,29 @@
+<h1>Tsilhqot'in War Research Zotero Collections</h1>
+
+<div class="collections-nav">
+  <app-material-tree [nestedDataSource]=collections_nav (collectionKey)="getCollectionItems($event)"></app-material-tree>
+</div>
+
+<div class="collection-items">
+  <div class="progress-bar" [hidden]="hideLoading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <ng-container *ngFor="let item of zoteroItems">
+    <ng-container *ngIf="checkType(item.data.itemType)">
+      <div class="item">
+        <h3 class="itemTitle" (click)="openItemDialog(item)">{{ item.data.title }}</h3>
+        <div class="itemDetail" *ngIf="item.data.key">Key: {{ item.data.key }}</div>
+        <div class="itemDetail" *ngIf="item.data.date">Year: {{ item.data.date }}</div>
+        <div class="itemDetail">Item Type: {{ item.data.itemType }}</div>
+        <div class="itemDetail" *ngIf="item.data.tags.length > 0">Tags:
+          <ul class="tagslist">
+            <ng-container *ngFor="let tags of item.data.tags">
+              <li>{{ tags.tag }}</li>
+            </ng-container>
+          </ul>
+        </div>
+      </div><!-- /item -->
+    </ng-container>
+  </ng-container>
+
+</div>

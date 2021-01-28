@@ -1,0 +1,106 @@
+<div class="notes_title">
+  <h3>Notes &nbsp;
+    <button mat-mini-fab color="accent" aria-label="Add Note" (click)="toggleNoteForm()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </h3>
+</div>
+
+
+<ul class="notesList">
+  <li class="isNoteFormActive" *ngIf="isNoteFormActive">
+    <mat-card>
+      <form [formGroup]="noteForm" #myNoteForm="ngForm" (ngSubmit)="onSubmit(); myNoteForm.reset()">
+
+        <mat-card-header>
+          <mat-card-title>
+            <ng-container *ngIf="note; else elseBlock">
+              Edit Note {{ note.id }}
+            </ng-container>
+            <ng-template #elseBlock>
+              Add Note
+            </ng-template>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+          <div class="note_meta">
+            <ng-container *ngIf='formType=="video"'>
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Video In</mat-label>
+                <input [formControl]="videoIn" matInput placeholder="">
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" color="accent">
+                <mat-label>Video Out</mat-label>
+                <input [formControl]="videoOut" matInput placeholder="">
+              </mat-form-field>
+            </ng-container>
+
+            <mat-form-field appearance="fill" color="accent">
+              <mat-label>Page Number</mat-label>
+              <input [formControl]="pageNum" matInput placeholder="">
+            </mat-form-field>
+
+          </div><!-- /note_meta -->
+          <div class="note_text">
+
+            <mat-form-field appearance="fill" color="accent">
+              <mat-label>Note</mat-label>
+              <textarea cdkTextareaAutosize
+              cdkAutosizeMinRows="5"
+              cdkAutosizeMaxRows="30"
+              [formControl]="noteText" matInput>
+            </textarea>
+          </mat-form-field>
+
+        </div><!-- /note_text -->
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button class="note-submit-button" mat-raised-button color="accent" type="submit">Submit</button>
+        <button class="note-cancel-button" mat-raised-button color="accent" type="reset" (click)="toggleNoteForm(); myNoteForm.reset(); resetNoteForm()">Cancel</button>
+      </mat-card-actions>
+
+    </form>
+  </mat-card>
+  </li>
+  <ng-container *ngFor="let child of childItems">
+    <!-- Zotero Server Notes -->
+    <li *ngIf="child.data.itemType == 'note'">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Zotero Note:</mat-card-title>
+          <mat-card-subtitle>{{ child.key }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content [innerHTML]="child.data.note | stripHtml:'outer'">
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button (click)="importZoteroNote(child)">
+            <mat-icon aria-hidden="false" aria-label="Import Note">input</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </li>
+  </ng-container>
+  <li *ngFor="let note of notes">
+    <!-- Local Server Notes -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <ng-container *ngIf="note.pageNum; else elseBlock">
+            Page: {{ note.pageNum }}
+          </ng-container>
+          <ng-template #elseBlock>
+            Note
+          </ng-template>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content [innerHTML]="note.noteText | stripHtml:'outer'"></mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-button (click)="editNote(note)">
+          <mat-icon aria-hidden="false" aria-label="Edit Note">edit</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </li>
+</ul>

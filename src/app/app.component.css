@@ -8,3 +8,12 @@
 .desktop mat-nav-list a {
   display: inline-block;
 }
+
+.main {
+  margin: auto 5%;
+}
+
+.footer {
+  padding: 50px;
+  clear: both;
+}

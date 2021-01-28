@@ -1,0 +1,17 @@
+.nav-tree-invisible {
+  display: none;
+}
+
+.nav-tree ul,
+.nav-tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+.background-highlight {
+  color: #027167;
+  font-weight: bold;
+  background-color: #9a9a9a;
+}

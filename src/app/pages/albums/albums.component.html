@@ -1,0 +1,14 @@
+<h1>Tsilhqot'in War Research Albums</h1>
+<div class="album_list">
+  <ul>
+    <li class="album_card" *ngFor="let album of albums">
+      <mat-card [routerLink]="['/album', album.id]">
+        <mat-card-header>
+          <mat-card-title>{{ album.name }}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="album.thumb_url">
+      </mat-card>
+    </li>
+  </ul>
+  <div class="spacer" style="height: 1px; clear: both">&nbsp;</div>
+</div><!-- /filesList -->

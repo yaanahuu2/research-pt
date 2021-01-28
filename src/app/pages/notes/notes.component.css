@@ -1,0 +1,36 @@
+h3 .mat-mini-fab {
+  vertical-align: middle;
+}
+
+/* .notes_title {
+  display: flex;
+}
+ */
+h3.mat-icon {
+}
+
+mat-card {
+  background-color: #6f6f6f;
+}
+
+li.note_form {
+  display: none !important;
+}
+
+ul.notesList li {
+  list-style-type: none;
+  margin: .2em;
+  width: 30%;
+  display: inline-block;
+  vertical-align:top;
+}
+
+.pageNum {
+  font-weight: bold;
+  margin-bottom: 1em;
+  color: #ccc;
+}
+
+.spacer {
+  clear: both;
+}

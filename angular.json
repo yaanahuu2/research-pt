@@ -33,7 +33,9 @@
               "src/main.scss",
               "./node_modules/leaflet/dist/leaflet.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/zotero-api-client/build/zotero-api-client.js"
+            ]
           },
           "configurations": {
             "production": {

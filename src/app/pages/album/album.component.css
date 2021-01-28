@@ -1,0 +1,31 @@
+li.album_card {
+  list-style-type: none;
+  margin: .2em;
+  width: 200px;
+  display: inline-block;
+  vertical-align:top;
+}
+
+li.itemsel {
+  list-style-type: none;
+  margin: 3px;
+  min-width: 20px;
+  display: inline-block;
+  vertical-align:top;
+}
+
+li.itemsel img {
+  width: 30px;
+  height: 30px;
+  border-radius: 3px;
+}
+
+.mat-card-image {
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.mat-card {
+  background-color: #6f6f6f;
+  cursor: pointer;
+}
