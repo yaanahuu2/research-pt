@@ -19,6 +19,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import {PlatformModule} from '@angular/cdk/platform';
 import {ObserversModule} from '@angular/cdk/observers';
@@ -41,6 +42,7 @@ const modules = [
   MatProgressSpinnerModule,
   MatProgressBarModule,
   MatPaginatorModule,
+  MatExpansionModule,
   ObserversModule,
   PlatformModule
 ];

@@ -1,13 +1,17 @@
 <h1>Tsilhqot'in War Research Zotero Collections</h1>
 
 <div class="collections-nav">
-  <app-material-tree [nestedDataSource]=collections_nav (collectionKey)="getCollectionItems($event)"></app-material-tree>
+  <div class="progress-bar" [hidden]="hideLoadingCollections">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <app-material-tree [nestedDataSource]=collectionsNav (collectionKey)="getCollectionItems($event)" (collectionName)="$event"></app-material-tree>
 </div>
 
 <div class="collection-items">
-  <div class="progress-bar" [hidden]="hideLoading">
+  <div class="progress-bar" [hidden]="hideLoadingItems">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
+  <h3>{{ collectionName }}</h3>
   <ng-container *ngFor="let item of zoteroItems">
     <ng-container *ngIf="checkType(item.data.itemType)">
       <div class="item">
@@ -25,5 +29,4 @@
       </div><!-- /item -->
     </ng-container>
   </ng-container>
-
-</div>
+</div><!-- /collection-items -->

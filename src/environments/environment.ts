@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  auth_key: 'NBIWc6ngP26eRb2TUuHVBG1c',
-  group: 2606060,
+  auth_key: 'Ez016UjYEMGKf1xvrrp6rbwu',
+  group: 2793534,
   apiUrl: 'api'
 };
 

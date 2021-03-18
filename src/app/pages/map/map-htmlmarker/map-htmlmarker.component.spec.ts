@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MapHTMLMarkerComponent } from './map-htmlmarker.component';
 
@@ -6,7 +6,7 @@ describe('MapHTMLMarkerComponent', () => {
   let component: MapHTMLMarkerComponent;
   let fixture: ComponentFixture<MapHTMLMarkerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MapHTMLMarkerComponent ]
     })

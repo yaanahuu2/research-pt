@@ -34,7 +34,7 @@
               "./node_modules/leaflet/dist/leaflet.css"
             ],
             "scripts": [
-              "node_modules/zotero-api-client/build/zotero-api-client.js"
+              "node_modules/zotero-api-client/dist/zotero-api-client.js"
             ]
           },
           "configurations": {
@@ -48,7 +48,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,

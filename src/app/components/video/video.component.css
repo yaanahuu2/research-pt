@@ -1,0 +1,131 @@
+.video_viewer {
+  top: 20px;
+  position: relative;
+}
+
+.video_viewer:-webkit-full-screen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #000;
+}
+
+.video_viewer:-webkit-full-screen video {
+  /* Make video to at least 100% wide and tall */
+  min-width: 100%;
+  min-height: 100%;
+
+  /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+  width: auto;
+  height: auto;
+
+  /* Center the video */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+button {
+  margin-left: 7px;
+}
+
+.video_viewer:-webkit-full-screen .commentary {
+  right: 0px;
+  height: 100vh;
+  border-radius: 0px;
+  z-index: 500;
+  float: none;
+  position: absolute;
+}
+
+.video_viewer:-webkit-full-screen .controls {
+  bottom: 2px;
+  left: 2px;
+  position: absolute;
+}
+
+.controls {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+
+.time-slider {
+  width: 100%;
+}
+
+.video_container {
+  width: 100%;
+  min-height: 430px;
+}
+
+video {
+  width: 100%;
+  border: 2px solid #1f1e1e;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.commentary {
+  width: 25%;
+  height: 60vh;
+  padding: 10px;
+  position: relative;
+  float: right;
+  border-radius: 6px;
+}
+
+.commentary li {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.6);;
+}
+
+.commentary li img {
+  height: 70px;
+  margin-right: 10px;
+  float: left;
+  position: relative;
+}
+
+.tc {
+  padding: 9.8px;
+  background-color: #232323;
+  border-radius: 4px;
+  float: left;
+  position: relative;
+}
+
+.subtitles {
+  width: 100%;
+}
+
+.mat-slide-toggle {
+  margin-left: 10px;
+}
+
+:host ::ng-deep .mat-slider-wrapper .mat-slider-thumb-container .mat-slider-thumb-label {
+   width: 50px;
+   height: 50px;
+   top: -62px;
+   right: -25px;
+ }
+
+ .buffering {
+   width: 50px;
+   height: auto;
+   margin-left: 5px;
+ }
+
+.spacer {
+  height: 1px;
+  clear: both;
+}

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { map, switchMap } from 'rxjs/operators';
 
-import { LookbookService } from '../../services/lookbook.service';
-import { Lookbook } from '../../types/types';
+import { LookbookService } from '../../shared/services/lookbook.service';
+import { Lookbook } from '../../shared/types/types';
 import { ObservableInput } from 'rxjs';
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DbHttpService } from '../../services/db-http.service';
+import { DbHttpService } from '../../shared/services/db-http.service';
 import { AlbumItems } from './albums';
 import { Albums } from './albums';
 

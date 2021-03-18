@@ -5,4 +5,5 @@ export interface ZoteroItemNotes {
   videoOut?: number;
   pageNum?: number;
   noteText: string;
+  tags?: { tag: string }[];
 }

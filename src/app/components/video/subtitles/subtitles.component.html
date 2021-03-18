@@ -1,0 +1,43 @@
+<div *ngIf="!enableSubtitleForm; else elseBlock">
+  <div class="subtitle_container">
+    <div [@fade]="showSub ? 'sub_in' : 'sub_out'" class="subtitle">
+      {{ subtitle_live.text }}
+      <button mat-icon-button (click)="editSubtitle(subtitle_live)">
+        <mat-icon mat-list-icon>edit</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #elseBlock>
+  <div class="subtitle_form">
+
+    <ul>
+      <li>
+        <button mat-icon-button (click)="replay(5)">
+          <mat-icon mat-list-icon>fast_rewind</mat-icon>
+        </button>
+      </li>
+      <li>
+        <button mat-icon-button (click)="forward(5)">
+          <mat-icon mat-list-icon>fast_forward</mat-icon>
+        </button>
+      </li>
+      <li>
+        <form [formGroup]="subtitleForm" #mySubtitleForm="ngForm" (ngSubmit)="onSubmit()">
+          <input type="text" name="tc_in" class="tc_viewer" value="{{ currentTimeIn | mediaTimecode }}" readonly>
+          <input type="text" name="text_versions_1" class="subtitle_text_field" [formControl]="text_versions_1" placeholder="Subtitle Text" (keypress)="toggleButtonOn()">
+          <input type="text" name="text_versions_2" class="subtitle_text_field" [formControl]="text_versions_2" placeholder="Subtitle Text" (keypress)="toggleButtonOn()">
+          <input type="text" name="text_versions_3" class="subtitle_text_field" [formControl]="text_versions_3" placeholder="Subtitle Text" (keypress)="toggleButtonOn()">
+          <input type="text" name="tc_out" class="tc_viewer" value="{{ currentTimeOut | mediaTimecode }}" readonly>
+          <button mat-icon-button type="submit" [disabled]="disableButton">
+            <mat-icon mat-list-icon>done</mat-icon>
+          </button>
+          <button mat-icon-button type="reset">
+            <mat-icon mat-list-icon>close</mat-icon>
+          </button>
+        </form>
+      </li>
+    </ul>
+
+  </div> <!-- /subtitle_form -->
+</ng-template>

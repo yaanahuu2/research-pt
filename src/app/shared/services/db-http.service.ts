@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from './../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ZoteroItemNotes } from '../pages/notes/zotero-item-notes';
-import { AlbumItems } from '../pages/albums/albums';
-import { Albums } from '../pages/albums/albums';
+import { ZoteroItemNotes } from '../../pages/notes/zotero-item-notes';
+import { AlbumItems } from '../../pages/albums/albums';
+import { Albums } from '../../pages/albums/albums';
+// import { Subtitle } from '../../components/video/subtitles/i-subtitle';
+import { CategoryTree } from '../../components/category-tree/category-tree';
+import { TimelineItem } from '../../components/timeline/i-timeline-item';
 
 @Injectable({
   providedIn: 'root'
@@ -60,14 +63,43 @@ export class DbHttpService {
     );
   }
 
-  getCategoryTree(): Observable<CategoryTree[]> {
-    const url = `${environment.apiUrl}/albums`;
+  getCategoryTree(tree_id: number): Observable<CategoryTree[]> {
+    const url = `${environment.apiUrl}/category_relationships?tree=${tree_id}`;
     return this.http.get<CategoryTree[]>(url).pipe(
         tap(_ => console.log('fetched tree')),
-        catchError(this.handleError<CategoryTree[]>('getCategoryTree', []))
+        catchError(this.handleError<CategoryTree[]>(`getCategoryTree tree=${tree_id}`))
       );
   }
 
+  // getSubtitles(): Observable<Subtitle[]> {
+  //   const url = `${environment.apiUrl}/subtitles`;
+  //   return this.http.get<Subtitle[]>(url).pipe(
+  //       tap(_ => console.log('fetched subtitles')),
+  //       catchError(this.handleError<Subtitle[]>('getSubtitles', []))
+  //     );
+  // }
+  //
+  // addSubtitle(subtitle: Subtitle): Observable<Subtitle> {
+  //   return this.http.post<Subtitle>(environment.apiUrl + '/subtitles', subtitle).pipe(
+  //     tap((newSubtitle: Subtitle) => console.log(`added subtitle w/ id=${newSubtitle.id}`)),
+  //     catchError(this.handleError<Subtitle>('addSubtitle'))
+  //   );
+  // }
+  //
+  // updateSubtitle(subtitle: Subtitle): Observable<any> {
+  //   return this.http.put(environment.apiUrl + '/subtitles', subtitle).pipe(
+  //     tap(_ => console.log(`updated subtitle id=${subtitle.id}`)),
+  //     catchError(this.handleError<any>("updateSubtitle"))
+  //   );
+  // }
+
+  getTimelineItems(): Observable<TimelineItem[]> {
+    const url = `${environment.apiUrl}/timeline_items`;
+    return this.http.get<TimelineItem[]>(url).pipe(
+        tap(_ => console.log('fetched timeline_items')),
+        catchError(this.handleError<TimelineItem[]>('getTimelineItems', []))
+      );
+  }
 
   /**
    * Handle Http operation that failed.

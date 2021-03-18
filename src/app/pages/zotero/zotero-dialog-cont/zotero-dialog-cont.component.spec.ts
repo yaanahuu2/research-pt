@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ZoteroDialogContComponent } from './zotero-dialog-cont.component';
 
@@ -6,7 +6,7 @@ describe('ZoteroDialogContComponent', () => {
   let component: ZoteroDialogContComponent;
   let fixture: ComponentFixture<ZoteroDialogContComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ZoteroDialogContComponent ]
     })

@@ -1,0 +1,36 @@
+<form [formGroup]="subtitleForm" #mySubtitleForm="ngForm" (ngSubmit)="onSubmit(); mySubtitleForm.reset()">
+
+  <ul>
+    <li>
+      <input type="text" name="currentTime" class="tc_viewer" value="{{ currentTime }}" readonly>
+    </li>
+    <li>
+      <input type="text" name="tc_in" class="tc_viewer" value="{{ currentTimeIn | mediaTimecode }}" readonly>
+    </li>
+    <li>
+      <button mat-icon-button (click)="seekTo(currentTime - 5)">
+        <mat-icon mat-list-icon>fast_rewind</mat-icon>
+      </button>
+    </li>
+    <li>
+      <input type="text" name="subtitle" class="subtitle_text_field" [formControl]="text" placeholder="Subtitle Text">
+    </li>
+    <li>
+      <button mat-icon-button (click)="seekTo(currentTime + 5)">
+        <mat-icon mat-list-icon>fast_forward</mat-icon>
+      </button>
+    </li>
+    <li>
+      <input type="text" name="tc_out" class="tc_viewer" value="{{ currentTimeOut | mediaTimecode }}" readonly>
+    </li>
+    <li>
+      <button mat-icon-button type="submit">
+        <mat-icon mat-list-icon>done</mat-icon>
+      </button>
+      <button mat-icon-button type="reset">
+        <mat-icon mat-list-icon>close</mat-icon>
+      </button>
+    </li>
+  </ul>
+
+</form>

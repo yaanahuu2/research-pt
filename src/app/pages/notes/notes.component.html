@@ -72,7 +72,13 @@
           <mat-card-title>Zotero Note:</mat-card-title>
           <mat-card-subtitle>{{ child.key }}</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-content [innerHTML]="child.data.note | stripHtml:'outer'">
+        <mat-card-content>
+          <div class="note_content" [innerHTML]="child.data.note | stripHtml:'outer'"></div>
+          <ul class="tagslist">
+            <li *ngFor="let tags of child.data.tags">
+              {{ tags.tag }}
+            </li>
+          </ul>
         </mat-card-content>
         <mat-card-actions align="end">
           <button mat-button (click)="importZoteroNote(child)">
@@ -95,7 +101,14 @@
           </ng-template>
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content [innerHTML]="note.noteText | stripHtml:'outer'"></mat-card-content>
+      <mat-card-content>
+        <div class="note_content" [innerHTML]="note.noteText | stripHtml:'outer'"></div>
+        <ul class="tagslist">
+          <li *ngFor="let tags of note.tags">
+            {{ tags.tag }}
+          </li>
+        </ul>
+      </mat-card-content>
       <mat-card-actions align="end">
         <button mat-button (click)="editNote(note)">
           <mat-icon aria-hidden="false" aria-label="Edit Note">edit</mat-icon>

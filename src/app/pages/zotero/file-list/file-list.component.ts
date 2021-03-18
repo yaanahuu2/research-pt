@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import api from 'zotero-api-client';
 import { environment } from '../../../../environments/environment';
-import { DbHttpService } from '../../../services/db-http.service';
+import { DbHttpService } from '../../../shared/services/db-http.service';
 
 export interface ZoteroAttachment {
   key: string;

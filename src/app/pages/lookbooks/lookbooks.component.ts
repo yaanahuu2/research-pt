@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LookbookService } from '../../services/lookbook.service';
-import { Lookbook } from '../../types/types';
+import { LookbookService } from '../../shared/services/lookbook.service';
+import { Lookbook } from '../../shared/types/types';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -19,7 +19,7 @@ export class LookbooksComponent implements OnInit {
 
   constructor( private lookbookService: LookbookService ) { }
 
-  
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit(): void {

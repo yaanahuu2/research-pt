@@ -11,7 +11,8 @@ import { CollectionsNav } from '../collectionsnav';
 
 export class MaterialTreeComponent {
   @Output() collectionKey = new EventEmitter<string>();
-  // @Output() hideLoading = new EventEmitter<boolean>();
+  @Output() collectionName = new EventEmitter<string>();
+  // @Output() hideLoadingItems = new EventEmitter<boolean>();
   activeNode: any;
 
   treeControl = new NestedTreeControl<CollectionsNav>(node => node.children);
@@ -23,8 +24,9 @@ export class MaterialTreeComponent {
 
   private _getChildren = (node: CollectionsNav) => node.children;
 
-  loadCollectionItems(key: string) {
+  loadCollectionItems(key: string, name: string) {
     this.collectionKey.emit(key);
+    this.collectionName.emit(name);
   }
 
 }

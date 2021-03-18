@@ -1,13 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { DbHttpService } from '../../services/db-http.service';
-import { StripHtmlPipe } from '../../pipes/strip-html.pipe';
+import { DbHttpService } from '../../shared/services/db-http.service';
+import { StripHtmlPipe } from '../../shared/pipes/strip-html.pipe';
 import { ZoteroItemNotes } from './zotero-item-notes';
 
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.css', '../zotero/zotero-dialog-cont/zotero-dialog-cont.component.css']
+  styleUrls: [
+    './notes.component.css',
+    '../zotero/zotero-dialog-cont/zotero-dialog-cont.component.css',
+    '../zotero/zotero.component.css'
+  ]
 })
 export class NotesComponent implements OnInit {
 
@@ -66,7 +70,6 @@ export class NotesComponent implements OnInit {
     let c = /<p>(Page:|P:) \d+<\/p>/g;
 
     if (noteText.search(a) > -1) {
-
       var pageNum = noteText.match(b)[0];
       noteText = noteText.replace(c, '');
       console.log(pageNum);
@@ -77,7 +80,8 @@ export class NotesComponent implements OnInit {
       id: null,
       key: zotero_note.key,
       pageNum: (pageNum) ? pageNum : null,
-      noteText: noteText
+      noteText: noteText,
+      tags: zotero_note.data.tags
     }
     console.log(note);
     this.add(note, true);
@@ -89,7 +93,8 @@ export class NotesComponent implements OnInit {
         id: this.note.id,
         key: this.note.key,
         pageNum: this.noteForm.value.pageNum,
-        noteText: this.noteForm.value.noteText
+        noteText: this.noteForm.value.noteText,
+        tags: this.note.tags
       }
       console.log(note);
       this.updateNote(note);

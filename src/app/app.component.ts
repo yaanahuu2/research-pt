@@ -14,4 +14,3 @@ export class AppComponent {
     this.otherTheme = !this.otherTheme;
   }
 }
-

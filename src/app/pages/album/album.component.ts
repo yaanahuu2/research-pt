@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from '@angular/common';
 import { map, switchMap } from 'rxjs/operators';
 import { ObservableInput } from 'rxjs';
-import { DbHttpService } from '../../services/db-http.service';
+import { DbHttpService } from '../../shared/services/db-http.service';
 import { AlbumItems } from '../albums/albums';
 import { Albums } from '../albums/albums';
 

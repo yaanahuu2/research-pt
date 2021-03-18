@@ -1,0 +1,36 @@
+<h2>Tsilhqot'in War Timeline</h2>
+
+<div class="timeline_loading" *ngIf="isLoading; else elseBlock">
+  <div class="loading_message">
+    Loading timeline events from Zotero...
+  </div>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
+<ng-template #elseBlock>
+  <div class="timeline">
+    <div *ngFor="let item of timelineItems index as i; odd as isLeft; even as isRight"
+    [class.container]="true"
+    [class.left]="isLeft"
+    [class.right]="isRight">
+      <div class="content">
+        <h3>{{ item.datetime | date: 'longDate' }}</h3>
+        <p>{{ item.title }}</p>
+        <div class="details">
+          <p class="item_abstract" *ngIf="item.abstract">{{ item.abstract }}</p>
+          <h4 *ngIf="item.relations.length > 0">Related</h4>
+          <ng-container *ngFor="let rel of item.relations">
+            <ng-container [ngSwitch]="rel.itemType">
+              <p *ngSwitchCase="'note'">
+                {{ rel.note | stripHtml | slice:0:45 }}...
+              </p>
+              <p *ngSwitchCase="'webpage'">
+                {{ rel.title | slice:0:45 }}...
+              </p>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

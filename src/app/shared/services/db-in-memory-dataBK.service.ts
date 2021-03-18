@@ -20,7 +20,7 @@ export class DbInMemoryDataService implements InMemoryDbService {
     ];
 
     const albums = [
-      { id: 1, name: 'Baskets', thumb_url: './assets/albums/basket1.jpg' },
+      { id: 1, name: 'Baskets', thumb_url: './assets/albums/basket.jpg' },
       { id: 2, name: 'People', thumb_url: './assets/albums/people.jpg' },
       { id: 3, name: 'Housing', thumb_url: './assets/albums/housing.jpg' },
       { id: 4, name: 'Hunting', thumb_url: './assets/albums/hunting.jpg' },
@@ -99,13 +99,38 @@ export class DbInMemoryDataService implements InMemoryDbService {
       { id: 1, tree: 1, category: 12, parent: 4 }
     ];
 
+    const subtitles = [
+      { id: 1, lang: 1, tc_in: 4, tc_out: 6, text: 'My daughter and her husband brought him home' },
+      { id: 2, lang: 1, tc_in: 7, tc_out: 9, text: 'and then grandpa was holding him and he said' },
+      { id: 3, lang: 1, tc_in: 10, tc_out: 13, text: '"you\'re going to be a great hunter, boy"' },
+      { id: 4, lang: 1, tc_in: 15, tc_out: 18, text: 'Anybody who can throw a hatched and sue you' },
+      { id: 1, lang: 2, tc_in: 4, tc_out: 6, text: 'Interlingual: My daughter and her husband brought him home' },
+      { id: 2, lang: 2, tc_in: 7, tc_out: 9, text: 'Interlingual: and then grandpa was holding him and he said' },
+      { id: 3, lang: 2, tc_in: 10, tc_out: 13, text: 'Interlingual: "you\'re going to be a great hunter, boy"' },
+      { id: 4, lang: 2, tc_in: 15, tc_out: 18, text: 'Interlingual: Anybody who can throw a hatched and sue you' },
+      { id: 1, lang: 3, tc_in: 4, tc_out: 6, text: 'English: My daughter and her husband brought him home' },
+      { id: 2, lang: 3, tc_in: 7, tc_out: 9, text: 'English: and then grandpa was holding him and he said' },
+      { id: 3, lang: 3, tc_in: 10, tc_out: 13, text: 'English: "you\'re going to be a great hunter, boy"' },
+      { id: 4, lang: 3, tc_in: 15, tc_out: 18, text: 'English: Anybody who can throw a hatched and sue you' }
+    ];
+
+    const timeline_items = [
+      { id: 1, datetime: '1860-12-24 12:00', datetime_out: null, text: 'Tsilhqot\'in War' },
+      { id: 2, datetime: '1890-1-13 12:00', datetime_out: '1890-10-24 12:00', text: 'Gold rush begins' },
+      { id: 3, datetime: '1920-3-14 12:00', datetime_out: null, text: 'Arrival of government officials' },
+      { id: 4, datetime: '1943-3-14 12:00', datetime_out: null, text: 'Second World War' },
+      { id: 5, datetime: '1980-3-14 12:00', datetime_out: null, text: 'Creation of Tsilhqot\'in National Government' }
+    ];
+
     return {
       notes,
       albums,
       albumItems,
       categories,
       category_trees,
-      category_relationships
+      category_relationships,
+      subtitles,
+      timeline_items
     };
   }
 

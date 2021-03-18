@@ -16,9 +16,9 @@
     </div><!-- /item -->
   </div><!-- /dialog_zotero_meta -->
   <div class="attachments">
-    <app-file-list [key]='item.data.key' [childItems]="item.childItems"></app-file-list>
+    <app-file-list [key]="item.data.key" [childItems]="item.childItems"></app-file-list>
   </div><!-- /attachments -->
   <div class="notes">
-    <app-notes [formType]='formType' [key]='item.data.key' [childItems]="item.childItems"></app-notes>
+    <app-notes [formType]="formType" [key]="item.data.key" [childItems]="item.childItems"></app-notes>
   </div><!-- /notes -->
 </div><!-- /mat-dialog-content -->

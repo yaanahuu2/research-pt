@@ -1,7 +1,7 @@
 import { Component, OnInit, ComponentFactoryResolver, ComponentRef, Injector, AfterViewChecked, DoCheck } from '@angular/core';
 import { icon, latLng, marker, Marker, polyline, polygon, tileLayer } from 'leaflet';
 import { MapHTMLMarkerComponent } from './map-htmlmarker/map-htmlmarker.component';
-import { MapDataService } from '../../services/mapdata.service';
+import { MapDataService } from '../../shared/services/mapdata.service';
 
 interface MarkerMetaData {
   name: String;
@@ -37,52 +37,56 @@ export class MapComponent implements AfterViewChecked, DoCheck {
     this.map = map;
   }
 
-  addMarker() {
+  addMarkerFromData() {
     // simply iterate over the array of markers from our data service
     // and add them to the map
     for(const entry of this.mapDataService.getMarkers()) {
-      // dynamically instantiate a mapDataService
-      const factory = this.resolver.resolveComponentFactory(MapHTMLMarkerComponent);
+      this.addMarkerToMap(entry);
+    }
+  }
 
-      // we need to pass in the dependency injector
-      const component = factory.create(this.injector);
+  addMarkerToMap(markerData) {
+    // dynamically instantiate a mapDataService
+    const factory = this.resolver.resolveComponentFactory(MapHTMLMarkerComponent);
 
-      // wire up the @Input() or plain variables (doesn't have to be strictly an @Input())
-      component.instance.data = entry;
+    // we need to pass in the dependency injector
+    const component = factory.create(this.injector);
 
-      // we need to manually trigger change detection on our in-memory component
-      // s.t. its template syncs with the data we passed in
-      component.changeDetectorRef.detectChanges();
+    // wire up the @Input() or plain variables (doesn't have to be strictly an @Input())
+    component.instance.data = markerData;
+
+    // we need to manually trigger change detection on our in-memory component
+    // s.t. its template syncs with the data we passed in
+    component.changeDetectorRef.detectChanges();
 
 
-      // create a new Leaflet marker at the given position
-      let m = marker(entry.position, {
-        icon: icon({
-          iconSize: entry.iconSize,
-          iconAnchor: entry.iconAnchor,
-          iconUrl: entry.iconUrl,
-          iconRetinaUrl: entry.iconUrl,
-          shadowUrl: 'leaflet/marker-shadow.png'
-        })
-      });
+    // create a new Leaflet marker at the given position
+    let m = marker(markerData.position, {
+      icon: icon({
+        iconSize: markerData.iconSize,
+        iconAnchor: markerData.iconAnchor,
+        iconUrl: markerData.iconUrl,
+        iconRetinaUrl: markerData.iconUrl,
+        shadowUrl: 'leaflet/marker-shadow.png'
+      })
+    });
 
     // pass in the HTML from our dynamic component
-      const popupContent = component.location.nativeElement;
+    const popupContent = component.location.nativeElement;
 
-      // add popup functionality
-      m.bindPopup(popupContent).openPopup();
+    // add popup functionality
+    m.bindPopup(popupContent).openPopup();
 
-      // finally add the marker to the map s.t. it is visible
-      m.addTo(this.map);
+    // finally add the marker to the map s.t. it is visible
+    m.addTo(this.map);
 
-      // add a metadata object into a local array which helps us
-      // keep track of the instantiated markers for removing/disposing them later
-      this.markers.push({
-        name: entry.name,
-        markerInstance: m,
-        componentInstance: component
-      });
-    }
+    // add a metadata object into a local array which helps us
+    // keep track of the instantiated markers for removing/disposing them later
+    this.markers.push({
+      name: markerData.name,
+      markerInstance: m,
+      componentInstance: component
+    });
   }
 
   removeMarker(marker) {
@@ -115,7 +119,7 @@ export class MapComponent implements AfterViewChecked, DoCheck {
   }
 
   ngAfterViewChecked(): void {
-    this.addMarker();
+    this.addMarkerFromData();
   }
 
   onClick() {
