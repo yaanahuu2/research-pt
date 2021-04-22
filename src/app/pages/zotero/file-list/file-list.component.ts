@@ -37,23 +37,24 @@ export class FileListComponent implements OnInit {
   getFileURLs() {
     var attachment: ZoteroAttachment;
     var fileresp: any;
+    if (this.childItems) {
+      this.childItems.forEach(child => {
+        if (child.data.itemType == 'attachment') {
+          fileresp = api(this.auth_key).library('group', this.group).items(child.key).attachmentUrl().get();
+          fileresp.then(data => {
+            var is_image: boolean = (child.data.contentType.indexOf('image') > -1) ? true : false;
+            attachment = {
+              key: child.data.key,
+              filename: child.data.filename,
+              is_image: is_image,
+              url: data.raw
+            }
 
-    this.childItems.forEach(child => {
-      if (child.data.itemType == 'attachment') {
-        fileresp = api(this.auth_key).library('group', this.group).items(child.key).attachmentUrl().get();
-        fileresp.then(data => {
-          var is_image: boolean = (child.data.contentType.indexOf('image') > -1) ? true : false;
-          attachment = {
-            key: child.data.key,
-            filename: child.data.filename,
-            is_image: is_image,
-            url: data.raw
-          }
-
-          this.attachments.push(attachment);
-        });
-      }
-    });
+            this.attachments.push(attachment);
+          });
+        }
+      });
+    }
   }
 
   getAttachmentFile(key: string) {

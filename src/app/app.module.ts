@@ -37,6 +37,7 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 // import { SubtitlesComponent } from './components/video/subtitles/subtitles.component';
 // import { VideoComponent } from './components/video/video.component';
 import { TesterComponent } from './pages/tester/tester.component';
+import { SortDatePipe } from './shared/pipes/sort.pipe';
 // import { SubtitleComponent } from './components/video/subtitle/subtitle.component';
 // import { SubtitleFormComponent } from './components/video/subtitle-form/subtitle-form.component';
 // import { MediaTimecodePipe } from './shared/pipes/media-timecode.pipe';
@@ -65,6 +66,7 @@ import { TesterComponent } from './pages/tester/tester.component';
     // VideoComponent,
     // SubtitlesComponent,
     TesterComponent,
+    SortDatePipe,
     // SubtitleComponent,
     // SubtitleFormComponent,
     // MediaTimecodePipe,
@@ -88,7 +90,7 @@ import { TesterComponent } from './pages/tester/tester.component';
       DbInMemoryDataService, { dataEncapsulation: false }
     )
   ],
-  providers: [MapDataService, StripHtmlPipe ], // MediaTimecodePipe
+  providers: [MapDataService, StripHtmlPipe, SortDatePipe ], // MediaTimecodePipe
   entryComponents: [MapHTMLMarkerComponent],
   bootstrap: [AppComponent]
 })

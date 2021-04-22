@@ -1,0 +1,183 @@
+import { Component, OnInit } from '@angular/core';
+import api from 'zotero-api-client';
+import { environment } from '../../../environments/environment';
+import { CollectionsNav } from './collectionsnav';
+import { MatDialog } from '@angular/material/dialog';
+import { ZoteroDialogContComponent } from './zotero-dialog-cont/zotero-dialog-cont.component';
+
+@Component({
+  selector: 'app-zotero',
+  templateUrl: './zotero.component.html',
+  styleUrls: ['./zotero.component.css']
+})
+export class ZoteroComponent implements OnInit {
+
+  response: any;
+  auth_key = environment.auth_key;
+  group = environment.group;
+  resourceTypesNav: CollectionsNav[];
+  filmCategoriesNav: CollectionsNav[];
+  collectionName: string;
+  zoteroItems: any;
+  hideLoadingCollections = true;
+  hideLoadingItems = true;
+
+  constructor(public dialog: MatDialog) { }
+
+  ngOnInit(): void {
+    this.getCollections();
+  }
+
+  getCollections() {
+    this.hideLoadingCollections = false;
+    var collections = [];
+
+    this.response = api(this.auth_key).library('group', this.group).collections().get({ limit: 1000 });
+    this.response.then(data => {
+      collections = data.raw;
+      let collections = this.sortCollectionsKeys(collections);
+      this.resourceTypesNav = this.getNestedChildren(collections, false, 'types');
+      this.filmCategoriesNav = this.getNestedChildren(collections, false, 'film');
+      // this.resourceTypesNav = this.sortCollectionsNames(this.resourceTypesNav);
+      // this.hideLoadingCollections = true;
+    });
+
+  }
+
+  getCollectionItems(collectionKey) {
+    var arr = [];
+    this.hideLoadingItems = false;
+    this.zoteroItems = [];
+
+    this.response = api(this.auth_key).library('group', this.group).collections(collectionKey).items().get();
+    this.response.then(data => {
+      arr = data.raw;
+
+      arr.sort(function(a, b) {
+        if (typeof a.data.title != 'undefined' && typeof b.data.title != 'undefined') {
+          var textA = a.data.title.toUpperCase();
+          var textB = b.data.title.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        }
+        else {
+          return 0;
+        }
+      });
+
+      this.zoteroItems = arr;
+      this.collateItemChildren();
+      console.log(this.zoteroItems);
+
+      this.hideLoadingItems = true;
+    });
+  }
+
+  zoteroQueryTest() {
+    this.response = api(this.auth_key).library('group', this.group).itemTypes().get();
+    this.response.then(data => {
+      console.log(data);
+    });
+
+  }
+
+  sortCollectionsKeys(arr) {
+    arr.sort(function(a, b) {
+        var textA = a.data.parentCollection;
+        var textB = b.data.parentCollection;
+        return (textA == false) ? -1 : 0;
+    });
+
+    return arr;
+  }
+
+  sortCollectionsNames(arr) {
+    arr.sort(function(a, b) {
+        var textA = a.name.toLowerCase();
+        var textB = b.name.toLowerCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    });
+
+    return arr;
+  }
+
+  getNestedChildren(arr, parent, nav_type) {  // type array, string
+    var out = [];
+
+    for(var i in arr) {
+    arr.foreach(i => {
+      // console.log(arr[i].data.parentCollection + ' : ' + arr[i].data.name);
+      if(arr[i].data.parentCollection == parent) {
+        if (arr[i].data.parentCollection == false) {
+          if (nav_type == 'types') {
+            if (arr[i].data.key !== '5VYN8W7C') {  // _Resource Types
+              return;
+            }
+          }
+          else if (nav_type == 'film') {
+            if (arr[i].data.key == '5VYN8W7C') {  // Film Categories
+              return;
+            }
+          }
+        }
+
+        var outVar: CollectionsNav = {
+          key: arr[i].data.key,
+          name: arr[i].data.name
+        }
+
+        var children = this.getNestedChildren(arr, arr[i].data.key, nav_type);
+
+        if (children?.length) {
+          children.sort(function(a, b) {
+              var textA = a.name;
+              var textB = b.name;
+              return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+          });
+
+          outVar.children = children;
+        }
+
+        out.push(outVar);
+
+      }
+    });
+
+    return out;
+  }
+
+  collateItemChildren() {
+    this.zoteroItems.forEach(item => {
+      if (typeof item.data.parentItem == 'undefined') {
+        item.childItems = [];
+        this.zoteroItems.forEach(innerItem => {
+          if (innerItem.data.parentItem == item.key) {
+            item.childItems.push(innerItem);
+          }
+        });
+      }
+    });
+  }
+
+  checkType(type) {
+    switch (type) {
+      case 'attachment':
+        return false;
+        break;
+      case 'note':
+        return false;
+        break;
+      default:
+        return true;
+        break;
+    }
+  }
+
+  openItemDialog(item) {
+    var selectedItem = item;
+    let dialogRef = this.dialog.open(ZoteroDialogContComponent, {
+      data: selectedItem
+    });
+
+  }
+
+}

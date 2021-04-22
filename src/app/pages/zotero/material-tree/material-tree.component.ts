@@ -12,6 +12,7 @@ import { CollectionsNav } from '../collectionsnav';
 export class MaterialTreeComponent {
   @Output() collectionKey = new EventEmitter<string>();
   @Output() collectionName = new EventEmitter<string>();
+  @Output() collectionTag = new EventEmitter<string>();
   // @Output() hideLoadingItems = new EventEmitter<boolean>();
   activeNode: any;
 
@@ -27,6 +28,7 @@ export class MaterialTreeComponent {
   loadCollectionItems(key: string, name: string) {
     this.collectionKey.emit(key);
     this.collectionName.emit(name);
+    this.collectionTag.emit(name);
   }
 
 }

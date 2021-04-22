@@ -79,6 +79,19 @@
               {{ tags.tag }}
             </li>
           </ul>
+          <ng-container *ngIf="child.relations">
+            <h4>Related</h4>
+            <ng-container *ngFor="let rel of child.data.relations">
+              <ng-container [ngSwitch]="rel.itemType">
+                <p *ngSwitchCase="'note'">
+                  {{ rel.note | stripHtml | slice:0:45 }}...
+                </p>
+                <p *ngSwitchCase="'webpage'">
+                  {{ rel.title | slice:0:45 }}...
+                </p>
+              </ng-container>
+            </ng-container>
+          </ng-container>
         </mat-card-content>
         <mat-card-actions align="end">
           <button mat-button (click)="importZoteroNote(child)">

@@ -20,7 +20,7 @@
       true,
       "attribute",
       "app",
-      "camelCase"
+      "convertCategoryNameToTag"
     ],
     "component-selector": [
       true,

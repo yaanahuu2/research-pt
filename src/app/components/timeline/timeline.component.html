@@ -9,7 +9,7 @@
 
 <ng-template #elseBlock>
   <div class="timeline">
-    <div *ngFor="let item of timelineItems index as i; odd as isLeft; even as isRight"
+    <div *ngFor="let item of timelineItems | sortDate index as i; odd as isLeft; even as isRight"
     [class.container]="true"
     [class.left]="isLeft"
     [class.right]="isRight">
@@ -20,12 +20,12 @@
           <p class="item_abstract" *ngIf="item.abstract">{{ item.abstract }}</p>
           <h4 *ngIf="item.relations.length > 0">Related</h4>
           <ng-container *ngFor="let rel of item.relations">
-            <ng-container [ngSwitch]="rel.itemType">
+            <ng-container [ngSwitch]="rel.getData().itemType">
               <p *ngSwitchCase="'note'">
-                {{ rel.note | stripHtml | slice:0:45 }}...
+                {{ rel.getData().note | stripHtml | slice:0:45 }}...
               </p>
               <p *ngSwitchCase="'webpage'">
-                {{ rel.title | slice:0:45 }}...
+                {{ rel.getData().title | slice:0:45 }}...
               </p>
             </ng-container>
           </ng-container>

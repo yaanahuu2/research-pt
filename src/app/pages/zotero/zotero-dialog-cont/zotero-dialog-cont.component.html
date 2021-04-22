@@ -4,8 +4,13 @@
   <div class="dialog_zotero_meta">
     <div class="item">
       <h3>{{ item.data.title }}</h3>
+      <div class="itemDetail" *ngIf="item.data.abstractNote">{{ item.data.abstractNote }}</div>
       <div class="itemDetail" *ngIf="item.data.date">Year: {{ item.data.date }}</div>
       <div class="itemDetail">Item Type: {{ item.data.itemType }}</div>
+      <div class="itemDetail" *ngIf="item.data.url">
+        URL:
+        <a target="_blank" [href]="item.data.url">{{ item.data.url | slice:0:70 }}&hellip;</a>
+      </div>
       <div class="itemDetail" *ngIf="item.data.tags.length > 0">Tags:
         <ul class="tagslist">
           <ng-container *ngFor="let tags of item.data.tags">
@@ -13,12 +18,15 @@
           </ng-container>
         </ul>
       </div>
+      <div class="itemDetail" *ngIf="item.data.itemType == 'note'" [innerHTML]="item.data.note"></div>
     </div><!-- /item -->
   </div><!-- /dialog_zotero_meta -->
   <div class="attachments">
     <app-file-list [key]="item.data.key" [childItems]="item.childItems"></app-file-list>
   </div><!-- /attachments -->
-  <div class="notes">
-    <app-notes [formType]="formType" [key]="item.data.key" [childItems]="item.childItems"></app-notes>
-  </div><!-- /notes -->
+  <ng-container *ngIf="item.data.itemType !== 'note'">
+    <div class="notes">
+      <app-notes [formType]="formType" [key]="item.data.key" [childItems]="item.childItems"></app-notes>
+    </div><!-- /notes -->
+  </ng-container>
 </div><!-- /mat-dialog-content -->

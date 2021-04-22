@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, forkJoin, from } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import api from 'zotero-api-client';
 import { environment } from '../../../environments/environment';
 import { DbHttpService } from '../../shared/services/db-http.service';
 import { StripHtmlPipe } from '../../shared/pipes/strip-html.pipe';
-import { SortDatePipe } from '../../shared/pipes/sort.pipe';
 import { TimelineItem } from './i-timeline-item';
 
 @Component({
@@ -20,11 +19,7 @@ export class TimelineComponent implements OnInit {
   group = environment.group;
   isLoading: boolean = true;
 
-  constructor(
-    private dbHttpService: DbHttpService,
-    private stripHtml: StripHtmlPipe,
-    private sortDate: SortDatePipe
-  ) { }
+  constructor(private dbHttpService: DbHttpService, private stripHtml: StripHtmlPipe) { }
 
   ngOnInit(): void {
     // this.getTimelineItems();
@@ -43,26 +38,15 @@ export class TimelineComponent implements OnInit {
     });
   }
 
+  getItem(key: string): Observable<any> {
+    var item: any;
 
-  // getItem(keys: string): void {
-  //   var keys: string[] = ['4SEGTKV4', 'IDPZHNET', 'DCTQ4C3G'];
-  //   const request = (key: string) => from(api(this.auth_key).library('group', this.group).items(key).get());
-  //   forkJoin(
-  //     keys.map(key => request(key))
-  //   );
-  // }
-
-  // getItem(key: string): Observable<any> {
-  //   var item: any;
-  //
-  //   const item = from(api(this.auth_key).library('group', this.group).items(key).get())
-  //   return item;
-  // }
+    const item = from(api(this.auth_key).library('group', this.group).items(key).get())
+    return item;
+  }
 
   getEventsFromZotero(data): any {
-    const request = (key: string) => api(this.auth_key).library('group', this.group).items(key).get();
-
-    data.forEach((item, index) => {
+    data.forEach(item => {
       var relationKeys: string[] = [];
       var zRelations = item.data.relations;
       var relations: string[] = [];
@@ -71,37 +55,41 @@ export class TimelineComponent implements OnInit {
         if (Array.isArray(zRelations['dc:relation'])) {
           zRelations['dc:relation'].forEach(rel => {
             relationKeys.push(rel.split('/').pop());
+            const observable = from(
+              api(this.auth_key).library('group', this.group).items(itemRelationKey).get()
+            ).subscribe(item =>
+              relations.push(item)
+            );
           });
         }
         else {
-          relationKeys.push(zRelations['dc:relation'].split('/').pop());
+          var itemRelationKey: string = zRelations['dc:relation'].split('/').pop();
+          const ZoteroObservable = from(api(this.auth_key).library('group', this.group).items(itemRelationKey).get())
+          ZoteroObservable.subscribe(item =>
+            relations.push(item)
+          );
         }
       }
 
-      if (relationKeys.length > 0) {
-        forkJoin(
-          relationKeys.map(key => request(key))
-        )
-        .subscribe(relations => {
-          let timelineItem: TimelineItem = {
-            key: item.data.key,
-            datetime: item.data.issueDate,
-            title: item.data.title,
-            abstract: item.data.abstractNote,
-            relations: relations
-          }
+      console.log(relations);
 
-          this.timelineItems.push(timelineItem);
-        });
+      let timelineItem: TimelineItem = {
+        key: item.data.key,
+        datetime: item.data.issueDate,
+        title: item.data.title,
+        abstract: item.data.abstractNote,
+        relations: relations
       }
 
-    });
+      this.timelineItems.push(timelineItem);
+    }
+    );
 
-    // this.timelineItems.sort(function(a, b) {
-    //     var dateA = new Date(a.datetime);
-    //     var dateB = new Date(b.datetime);
-    //     return (dateA < dateB) ? -1 : (dateA > dateB) ? 1 : 0;
-    // });
+    this.timelineItems.sort(function(a, b) {
+        var dateA = new Date(a.datetime);
+        var dateB = new Date(b.datetime);
+        return (dateA < dateB) ? -1 : (dateA > dateB) ? 1 : 0;
+    });
   }
 
   getItemRelation(key) {

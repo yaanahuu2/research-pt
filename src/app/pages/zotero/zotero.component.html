@@ -1,10 +1,16 @@
 <h1>Tsilhqot'in War Research Zotero Collections</h1>
 
+<div class="zoteroTest">
+  <button mat-button (click)="zoteroObsTest()">
+    Test Query
+  </button>
+</div>
 <div class="collections-nav">
   <div class="progress-bar" [hidden]="hideLoadingCollections">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
-  <app-material-tree [nestedDataSource]=collectionsNav (collectionKey)="getCollectionItems($event)" (collectionName)="$event"></app-material-tree>
+  <app-material-tree [nestedDataSource]=resourceTypesNav (collectionKey)="getCollectionItems($event)" (collectionName)="$event"></app-material-tree>
+  <app-material-tree [nestedDataSource]=filmCategoriesNav (collectionTag)="getCollectionItemsByTag($event)" (collectionName)="$event"></app-material-tree>
 </div>
 
 <div class="collection-items">
@@ -13,9 +19,16 @@
   </div>
   <h3>{{ collectionName }}</h3>
   <ng-container *ngFor="let item of zoteroItems">
-    <ng-container *ngIf="checkType(item.data.itemType)">
+    <ng-container *ngIf="checkType(item.data.itemType) && item.key !== 'QXCV43JD'">
       <div class="item">
-        <h3 class="itemTitle" (click)="openItemDialog(item)">{{ item.data.title }}</h3>
+        <h3 class="itemTitle" (click)="openItemDialog(item)">
+          <ng-container *ngIf="item.data.itemType == 'case'">
+            {{ item.data.caseName }}
+          </ng-container>
+          <ng-container #elseBlock>
+            {{ item.data.title }}
+          </ng-container>
+        </h3>
         <div class="itemDetail" *ngIf="item.data.key">Key: {{ item.data.key }}</div>
         <div class="itemDetail" *ngIf="item.data.date">Year: {{ item.data.date }}</div>
         <div class="itemDetail">Item Type: {{ item.data.itemType }}</div>

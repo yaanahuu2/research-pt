@@ -5,5 +5,5 @@ export interface TimelineItem {
   datetime_out?: string;
   title: string;
   abstract?: string;
-  relations?: string[];
+  relations?: any[];
 }

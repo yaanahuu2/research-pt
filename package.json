@@ -28,7 +28,7 @@
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3",
-    "zotero-api-client": "^0.35.0"
+    "zotero-api-client": "^0.36.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1101.2",
