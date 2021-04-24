@@ -29,6 +29,7 @@ export class VideoService {
     commsToggle: false,
     duration: undefined,
     currentTime: undefined,
+    language: 3,
     canplay: false,
     waiting: false,
     error: false,
@@ -144,6 +145,7 @@ export class VideoService {
       commsToggle: false,
       duration: undefined,
       currentTime: undefined,
+      language: 3,
       canplay: false,
       waiting: false,
       error: false

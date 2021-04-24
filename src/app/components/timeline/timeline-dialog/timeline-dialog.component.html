@@ -1,0 +1,18 @@
+<mat-icon aria-hidden="false" aria-label="Close" mat-dialog-close>close</mat-icon>
+<div mat-dialog-content>
+  <h3>{{ item.title }}</h3>
+  <div class="itemDetail" *ngIf="item.abstractNote">{{ item.abstractNote }}</div>
+  <div class="itemDetail" *ngIf="item.date">Year: {{ item.date }}</div>
+  <div class="itemDetail">Item Type: {{ item.itemType }}</div>
+  <div class="itemDetail" *ngIf="item.url">
+    URL:
+    <a target="_blank" [href]="item.url">{{ item.url | slice:0:70 }}&hellip;</a>
+  </div>
+  <div class="itemDetail" *ngIf="item.tags.length > 0">Tags:
+    <ul class="tagslist">
+      <ng-container *ngFor="let tags of item.tags">
+        <li>{{ tags.tag }}</li>
+      </ng-container>
+    </ul>
+  </div>
+  <div class="itemDetail" *ngIf="item.itemType == 'note'" [innerHTML]="item.note"></div>

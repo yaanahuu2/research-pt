@@ -22,6 +22,7 @@
         [currentTime]="state?.currentTime"
         [playing]="state?.playing"
         [subsToggle]="state?.subsToggle"
+        [language]="state?.language"
         (revPlayhead)="replay($event)"
         (forwardPlayhead)="forward($event)"
         (pauseMedia)="pause()">
@@ -30,32 +31,38 @@
     <mat-toolbar>
       <mat-toolbar-row>
         {{ state?.currentTime | mediaTimecode }} &nbsp;
-        <mat-slider thumbLabel [displayWith]="formatLabel" class="time-slider" min="0" [max]="state?.duration" step="1" [value]="state?.currentTime" (input)="onSliderChangeEnd($event)"></mat-slider>
+        <mat-slider thumbLabel [displayWith]="formatLabel" class="time-slider"
+          min="0" [max]="state?.duration" step="0.2" [value]="state?.currentTime"
+          (input)="onSliderChangeEnd($event)">
+        </mat-slider>
         &nbsp; {{ state?.duration | mediaTimecode }}
         <div class="buffering">
           <mat-spinner diameter="30" color="accent" *ngIf="state?.waiting"></mat-spinner>
         </div>
       </mat-toolbar-row>
       <mat-toolbar-row>
-        <button mat-mini-fab (click)="playPause(playerId, url)">
+        <button mat-mini-fab matTooltip="Play" (click)="playPause(playerId, url)">
           <mat-icon mat-list-icon>{{ playPauseButton }}</mat-icon>
         </button>
-        <button mat-mini-fab (click)="seekTo(0)">
+        <button mat-mini-fab matTooltip="Restart" (click)="seekTo(0)">
           <mat-icon mat-list-icon>replay</mat-icon>
         </button>
-        <button mat-mini-fab (click)="replay(5)">
+        <button mat-mini-fab matTooltip="Rewind 5 Seconds" (click)="replay(5)">
           <mat-icon mat-list-icon>replay_5</mat-icon>
         </button>
-        <button mat-mini-fab (click)="forward(5)">
+        <button mat-mini-fab matTooltip="Forward 5 Seconds" (click)="forward(5)">
           <mat-icon mat-list-icon>forward_5</mat-icon>
         </button>
-        <button mat-mini-fab (click)="toggleSubtitles()">
+        <button mat-mini-fab matTooltip="Toggle Subtitles" (click)="toggleSubtitles()">
           <mat-icon mat-list-icon>{{ subtitlesButton }}</mat-icon>
         </button>
-        <button mat-mini-fab (click)="toggleComments()">
+        <button mat-mini-fab matTooltip="Change Subtitle Language" (click)="toggleLanguage()">
+          <mat-icon mat-list-icon>language</mat-icon>
+        </button>
+        <button mat-mini-fab matTooltip="Toggle Comments" (click)="toggleComments()">
           <mat-icon mat-list-icon>{{ commentsButton }}</mat-icon>
         </button>
-        <button mat-mini-fab (click)="toggleFullscreen()">
+        <button mat-mini-fab matTooltip="Toggle Fullscreen" (click)="toggleFullscreen()">
           <mat-icon mat-list-icon>{{ fullscreenButton }}</mat-icon>
         </button>
       </mat-toolbar-row>

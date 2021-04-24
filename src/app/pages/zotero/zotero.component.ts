@@ -252,7 +252,7 @@ export class ZoteroComponent implements OnInit {
   }
 
   openItemDialog(item) {
-    console.log(item);
+    console.log(JSON.stringify(item.data.relations));
 
     var selectedItem = item;
     let dialogRef = this.dialog.open(ZoteroDialogContComponent, {

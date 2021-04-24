@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { VideoComponent } from '../../components/video/video.component';
+import { VideoComponent } from '../../components/video/video.component';
 
 @Component({
   selector: 'app-tester',

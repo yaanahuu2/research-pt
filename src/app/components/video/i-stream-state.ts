@@ -5,6 +5,7 @@ export interface StreamState {
     commsToggle: boolean;
     duration: number | undefined;
     currentTime: number | undefined;
+    language: number;
     canplay: boolean;
     waiting: boolean,
     error: boolean;

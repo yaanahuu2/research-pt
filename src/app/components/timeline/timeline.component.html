@@ -19,16 +19,16 @@
         <div class="details">
           <p class="item_abstract" *ngIf="item.abstract">{{ item.abstract }}</p>
           <h4 *ngIf="item.relations.length > 0">Related</h4>
-          <ng-container *ngFor="let rel of item.relations">
+          <div class="timeline_relation" *ngFor="let rel of item.relations">
             <ng-container [ngSwitch]="rel.getData().itemType">
-              <p *ngSwitchCase="'note'">
+              <p *ngSwitchCase="'note'" (click)="openItemDialog(rel)">
                 {{ rel.getData().note | stripHtml | slice:0:45 }}...
               </p>
-              <p *ngSwitchCase="'webpage'">
+              <p *ngSwitchCase="'webpage'" (click)="openItemDialog(rel)">
                 {{ rel.getData().title | slice:0:45 }}...
               </p>
             </ng-container>
-          </ng-container>
+          </div>
         </div>
       </div>
     </div>

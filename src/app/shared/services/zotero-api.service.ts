@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import api from 'zotero-api-client';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap, retry } from 'rxjs/operators';
+import { catchError, tap, retry, from } from 'rxjs/operators';
 import { environment } from './../../../environments/environment';
 import { CollectionsNav } from './../../pages/zotero/collectionsnav';
 

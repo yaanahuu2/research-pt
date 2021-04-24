@@ -39,6 +39,7 @@ export class VideoComponent {
       'text': 'I hope he gets eaten by a sealion.'
     }
   ];
+  language: number = 3;
 
   // Buttons
   playPauseButton: string = 'play_arrow';
@@ -102,11 +103,11 @@ export class VideoComponent {
     this.videoService.seekTo(tc);
   }
 
-  public replay(delta: number) {
+  replay(delta: number) {
     this.seekTo(this.state.currentTime - delta);
   }
 
-  public forward(delta: number) {
+  forward(delta: number) {
     this.seekTo(this.state.currentTime + delta);
   }
 
@@ -114,8 +115,6 @@ export class VideoComponent {
     this.videoService.seekTo(change.value);
   }
 
-  // Couldn't use formatTime function from videoService -- undefined?
-  // Good case for a pipe?
   formatLabel(tc: number) {
     var mN = Math.floor(tc / 60);
     var sN = Math.floor(tc - Number(mN) * 60);
@@ -127,6 +126,19 @@ export class VideoComponent {
   toggleSubtitles() {
     this.state.subsToggle = !this.state.subsToggle;
     this.subtitlesButton = (this.state.subsToggle) ? 'subtitles' : 'subtitles_off';
+  }
+
+  toggleLanguage() {
+    if (this.state.language == 3) {
+      this.state.language = 1;
+    }
+    else if (this.state.language == 1) {
+      this.state.language = 2;
+    }
+    else if (this.state.language == 2) {
+      this.state.language = 3;
+    }
+    console.log(this.state.language);
   }
 
   toggleComments() {

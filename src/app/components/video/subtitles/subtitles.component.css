@@ -10,18 +10,10 @@
   display: inline;
 }
 
-ul {
-  width: 100%;
-}
-
-ul li {
-  display: inline-block;
-}
-
 input[type=text] {
   font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
   height: 30px;
-  padding: 10px;
+  padding: 3px 10px;
   background-color: #454545;
   border: 0px;
 }
@@ -32,10 +24,43 @@ input:focus {
 
 input.subtitle_text_field {
   width: 600px;
+  background-color: #565555;
+  color: #ab67bb;
+  margin-top: 3px;
 }
 
 input.tc_viewer {
   width: 3em;
   text-align: center;
-  margin: 0px 4px;
+  color: #00bcd4;
+}
+
+label {
+  margin-right: 4px;
+}
+
+.subtitle_form {
+  background-color: #454545;
+}
+
+.subtitle_form ul {
+  width: 100%;
+  padding-left: 4px;
+}
+
+.subtitle_form ul li {
+  display: inline-grid;
+}
+
+.form_buttons {
+  /* width: 100px; */
+}
+
+.subtitle_form_inputs div {
+  float: left;
+  display: inline-block;
+}
+
+.subtitle_text_field_span {
+  display: inline-block;
 }

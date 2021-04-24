@@ -3,6 +3,8 @@ import { trigger, style, animate, transition, state, AnimationEvent } from '@ang
 import { DbHttpService } from '../../../shared/services/db-http.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subtitle } from './i-subtitle';
+import { Language } from './i-language';
+import { SubtitleTextVersions } from './i-subtitle';
 import { MediaTimecodePipe } from '../../../shared/pipes/media-timecode.pipe';
 
 @Component({
@@ -17,10 +19,10 @@ import { MediaTimecodePipe } from '../../../shared/pipes/media-timecode.pipe';
       state('sub_out', style({
         opacity: 0
       })),
-      transition('sub_in => sub_out', [
-        animate('.5s 0ms ease-out')
-      ]),
       transition('sub_out => sub_in', [
+        animate('.5s 0ms ease-in')
+      ]),
+      transition('sub_in => sub_out', [
         animate('.5s 0ms ease-in')
       ])
     ])
@@ -28,9 +30,18 @@ import { MediaTimecodePipe } from '../../../shared/pipes/media-timecode.pipe';
 })
 export class SubtitlesComponent implements OnInit {
 
+  // FOR FUTURE: https://angular.io/guide/reactive-forms#creating-dynamic-forms
+  // create and access a dynamic form Array for each language of a subtitle
+
   currentTimeSubs: number;
   @Input() set currentTime(value: number) {
+    let currTime = this.currentTimeSubs;
     this.currentTimeSubs = value;
+
+    if (Math.abs(value - currTime) > .5) {
+      // console.log('Delta: ' + value + ' | ' + currTime);
+      this.indexSubtitleQueue();
+    }
     this.displaySubtitle(this.currentTimeSubs);
   }
   @Output() revPlayhead = new EventEmitter<string>();
@@ -40,20 +51,29 @@ export class SubtitlesComponent implements OnInit {
   currentTimeOut: number = 0;
   @Input() playing: boolean;
   @Input() subsToggle: boolean;
+  @Input() language: number;
 
   subtitleForm: FormGroup;
-  text_versions_1 = new FormControl('');
-  text_versions_2 = new FormControl('');
-  text_versions_3 = new FormControl('');
+  textVersions1 = new FormControl('');
+  textVersions2 = new FormControl('');
+  textVersions3 = new FormControl('');
 
   subtitles: Subtitle[];
+  subtitlesQueue: Subtitle[];
   subtitle: Subtitle;
+  subtitle_current: Subtitle = {
+    id: null,
+    tc_in: null,
+    tc_out: null,
+    text_versions: []
+  };
   subtitle_live: Subtitle = {
     id: null,
     tc_in: null,
     tc_out: null,
     text_versions: []
   };
+  languages: Language[];
   showSub: boolean = false;
   disableButton: boolean = true;
   enableSubtitleForm: boolean = false;
@@ -63,12 +83,15 @@ export class SubtitlesComponent implements OnInit {
     fb: FormBuilder
   ) {
     this.subtitleForm = fb.group({
-      text: this.text
+      textVersions1: this.textVersions1,
+      textVersions2: this.textVersions2,
+      textVersions3: this.textVersions3
     });
   }
 
   ngOnInit() {
     this.getSubtitles();
+    this.getLanguages();
   }
 
   ngAfterViewInit() {
@@ -77,44 +100,97 @@ export class SubtitlesComponent implements OnInit {
   getSubtitles() {
     this.dbHttpService.getSubtitles()
     .subscribe(subtitles => {
-      this.subtitles = subtitles;
-      console.log(this.subtitles);
+      subtitles.sort(function(a, b) {
+        var timeA = a.tc_in;
+        var timeB = b.tc_in;
+        return (timeA < timeB) ? -1 : (timeA > timeB) ? 1 : 0;
+      });
+
+      this.subtitles = JSON.parse(JSON.stringify(subtitles));
+      this.subtitlesQueue = JSON.parse(JSON.stringify(subtitles));
+      // console.log('orig subtitles:');
+      // console.log(this.subtitles);
+      //
+      // console.log('orig subtitlesQueue:');
+      // console.log(this.subtitlesQueue);
     });
+  }
 
-
+  getLanguages() {
+    this.dbHttpService.getLanguages()
+    .subscribe(languages => {
+      this.languages = languages;
+    });
   }
 
   displaySubtitle(tc) {
     if (this.playing && this.subsToggle) {
-      var subOn: boolean = false;
-      this.subtitles.forEach(sub => {
-        if (tc >= sub.tc_in && tc <= sub.tc_out) {
-          if (this.subtitle_live.id == sub.id) {
-            subOn = true;
-            return;
-          }
-          else {
-            this.resetSubtitle();
-          }
+      if (this.subtitle_current.id == null && this.subtitlesQueue.length > 0) {
+        this.subtitle_current = this.subtitlesQueue.shift();
+        // console.log(this.subtitle_current);
+      }
 
-          this.subtitle_live = sub;
+      if (this.subtitle_current.id != null) {
+        if (tc >= this.subtitle_current.tc_in
+          && tc <= this.subtitle_current.tc_out
+          && !this.showSub) {
+
+          // console.log(tc + ' >= ' + this.subtitle_current.tc_in
+          //   + ' && ' + tc + ' <= ' + this.subtitle_current.tc_out);
+
+          this.subtitle_live = this.subtitle_current;
           this.showSub = true;
-          subOn = true;
-          return;
+          // console.log(this.subtitle_live);
         }
-      });
+        else if (this.subtitle_current.tc_out < tc ) {
+          // console.log(this.subtitle_current.tc_out + ' > ' + tc);
 
-      if (!subOn) {
-        this.showSub = false;
+          this.showSub = false;
+          this.resetSubtitleCurrent();
+
+          setTimeout(() => {
+            this.resetSubtitleLive();
+          }, 500);
+        }
       }
     }
   }
 
-  toggleSubFade() {
-    this.showSub = !this.showSub;
+  indexSubtitleQueue() {
+    this.subtitlesQueue = [];
+    // console.log('Index Subtitles Array:');
+    // console.log(this.subtitles);
+    // console.log('Index SubtitlesQueue Array 1:');
+    // console.log(this.subtitlesQueue);
+
+
+    this.subtitles.forEach((sub, index) => {
+      // console.log('Index Push?: ' + sub.tc_in + ' > ' + this.currentTimeSubs);
+
+      if (sub.tc_in > this.currentTimeSubs) {
+        this.subtitlesQueue.push(sub);
+        // console.log(sub);
+        // console.log('Index added');
+      }
+    });
+
+    // console.log('Index SubtitlesQueue Array 2:');
+    // console.log(this.subtitlesQueue);
+    this.resetSubtitleLive();
+    this.resetSubtitleCurrent();
+    this.showSub = false;
   }
 
-  resetSubtitle() {
+  resetSubtitleCurrent() {
+    this.subtitle_current = {
+      id: null,
+      tc_in: null,
+      tc_out: null,
+      text_versions: []
+    };
+  }
+
+  resetSubtitleLive() {
     this.subtitle_live = {
       id: null,
       tc_in: null,
@@ -125,10 +201,12 @@ export class SubtitlesComponent implements OnInit {
 
   replay(delta) {
     this.revPlayhead.emit(delta);
+    this.indexSubtitleQueue();
   }
 
   forward(delta) {
     this.forwardPlayhead.emit(delta);
+    this.indexSubtitleQueue();
   }
 
   pausePlayerMedia() {
@@ -139,13 +217,21 @@ export class SubtitlesComponent implements OnInit {
     this.subtitle = subtitle;
     this.pausePlayerMedia();
     this.toggleSubtitleForm();
-    this.currentTimeIn = this.subtitle.tc_in;
-    this.currentTimeOut = this.subtitle.tc_out;
     this.subtitleForm.patchValue({
-      text_versions_1: this.subtitle.text_versions[1],
-      text_versions_2: this.subtitle.text_versions[2],
-      text_versions_3: this.subtitle.text_versions[3]
+      textVersions1: this.subtitle.text_versions[0].text,
+      textVersions2: this.subtitle.text_versions[1].text,
+      textVersions3: this.subtitle.text_versions[2].text
     });
+  }
+
+  setSubtitleInPoint() {
+    this.subtitle.tc_in = this.currentTimeSubs;
+    console.log(this.subtitle.tc_in);
+  }
+
+  setSubtitleOutPoint() {
+    this.subtitle.tc_out = this.currentTimeSubs;
+    console.log(this.subtitle.tc_out);
   }
 
   toggleSubtitleForm() {
@@ -153,54 +239,55 @@ export class SubtitlesComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('Update:');
+    this.subtitle.text_versions[0].text = this.subtitleForm.value.textVersions1;
+    this.subtitle.text_versions[1].text = this.subtitleForm.value.textVersions2;
+    this.subtitle.text_versions[2].text = this.subtitleForm.value.textVersions3;
+    console.log(this.subtitle);
+
     if (this.subtitle) {
-      var subtitle: Subtitle = {
-        id: this.subtitle.id,
-        tc_in: this.currentTimeIn,
-        tc_out: this.currentTimeOut,
-        text: this.subtitleForm.value.text
-      }
-      console.log(subtitle);
-      this.updateSubtitle(subtitle);
+      this.updateSubtitle(this.subtitle);
     }
     else {
-      var subtitle: Subtitle = {
-        tc_in: this.currentTimeIn,
-        tc_out: this.currentTimeOut,
-        text: this.subtitleForm.value.text
-      }
-      console.log(subtitle);
-      this.add(subtitle);
+      console.log('Add:');
+      console.log(this.subtitle);
+      // var subtitle: Subtitle = {
+      //   tc_in: this.currentTimeIn,
+      //   tc_out: this.currentTimeOut,
+      //   text: this.subtitleForm.value.text
+      // }
+      // this.add(subtitle);
     }
   }
 
-  add(subtitle: Subtitle): void {
-    if (!subtitle) { return; }
-    this.dbHttpService.addSubtitle(subtitle as Subtitle)
-      .subscribe(subtitle => {
-        this.getSubtitles();
-        this.toggleSubtitleForm();
-        console.log('Added:');
-        console.log(subtitle);
-    });
-
-  }
+  // add(subtitle: Subtitle): void {
+  //   if (!subtitle) { return; }
+  //   this.dbHttpService.addSubtitle(subtitle as Subtitle)
+  //     .subscribe(subtitle => {
+  //       this.getSubtitles();
+  //       this.toggleSubtitleForm();
+  //       console.log('Added:');
+  //       console.log(subtitle);
+  //   });
+  //
+  // }
 
   updateSubtitle(subtitle: Subtitle): void {
     if (!subtitle) { return; }
     this.dbHttpService.updateSubtitle(subtitle)
       .subscribe(() => {
-        this.replay(this.currentTimeSubs - subtitle.tc_in + 2);
+        this.replay(this.currentTimeSubs - subtitle.tc_in + 5);
         this.getSubtitles();
         this.subtitle_live = subtitle;
         this.showSub = false;
         this.toggleSubtitleForm();
-        console.log(this.showSub);
-
       });
   }
 
-  resetSubtitleForm() {
+  onReset() {
+    console.log('reset');
+    this.subtitleForm.reset();
+    this.toggleSubtitleForm();
     delete this.subtitle;
   }
 

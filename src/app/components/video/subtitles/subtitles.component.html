@@ -1,8 +1,12 @@
 <div *ngIf="!enableSubtitleForm; else elseBlock">
   <div class="subtitle_container">
     <div [@fade]="showSub ? 'sub_in' : 'sub_out'" class="subtitle">
-      {{ subtitle_live.text }}
-      <button mat-icon-button (click)="editSubtitle(subtitle_live)">
+      <ng-container *ngFor="let version of subtitle_live.text_versions">
+        <ng-container *ngIf="version.lang == language">
+          {{ version.text }}
+        </ng-container>
+      </ng-container>
+      <button mat-icon-button matTooltip="Edit Subtitle" (click)="editSubtitle(subtitle_live)">
         <mat-icon mat-list-icon>edit</mat-icon>
       </button>
     </div>
@@ -10,34 +14,53 @@
 </div>
 <ng-template #elseBlock>
   <div class="subtitle_form">
+    <form [formGroup]="subtitleForm" #mySubtitleForm="ngForm" (ngSubmit)="onSubmit()">
 
-    <ul>
-      <li>
-        <button mat-icon-button (click)="replay(5)">
-          <mat-icon mat-list-icon>fast_rewind</mat-icon>
-        </button>
-      </li>
-      <li>
-        <button mat-icon-button (click)="forward(5)">
-          <mat-icon mat-list-icon>fast_forward</mat-icon>
-        </button>
-      </li>
-      <li>
-        <form [formGroup]="subtitleForm" #mySubtitleForm="ngForm" (ngSubmit)="onSubmit()">
-          <input type="text" name="tc_in" class="tc_viewer" value="{{ currentTimeIn | mediaTimecode }}" readonly>
-          <input type="text" name="text_versions_1" class="subtitle_text_field" [formControl]="text_versions_1" placeholder="Subtitle Text" (keypress)="toggleButtonOn()">
-          <input type="text" name="text_versions_2" class="subtitle_text_field" [formControl]="text_versions_2" placeholder="Subtitle Text" (keypress)="toggleButtonOn()">
-          <input type="text" name="text_versions_3" class="subtitle_text_field" [formControl]="text_versions_3" placeholder="Subtitle Text" (keypress)="toggleButtonOn()">
-          <input type="text" name="tc_out" class="tc_viewer" value="{{ currentTimeOut | mediaTimecode }}" readonly>
-          <button mat-icon-button type="submit" [disabled]="disableButton">
-            <mat-icon mat-list-icon>done</mat-icon>
+      <ul>
+        <li>
+          <input type="text" name="tc_in" class="tc_viewer"
+          value="{{ subtitle.tc_in | mediaTimecode }}" readonly>
+          <button mat-icon-button matTooltip="Update Subtitle In-point"
+          type="button" (click)="setSubtitleInPoint(); toggleButtonOn()">
+            <mat-icon mat-list-icon>navigation</mat-icon>
           </button>
-          <button mat-icon-button type="reset">
-            <mat-icon mat-list-icon>close</mat-icon>
+        </li>
+        <li class="subtitle_form_inputs">
+          <span class="subtitle_text_field_span">
+            <label for="textVersions_1">{{ languages[0].code }}</label>
+            <input type="text" id="textVersions_1" class="subtitle_text_field" [formControl]="textVersions1"
+            placeholder="XK Subtitle Text" (keypress)="toggleButtonOn()">
+          </span>
+          <span class="subtitle_text_field_span">
+            <label for="textVersions_2">{{ languages[1].code }}</label>
+            <input type="text" id="textVersions_2" class="subtitle_text_field" [formControl]="textVersions2"
+            placeholder="Inter Subtitle Text" (keypress)="toggleButtonOn()">
+          </span>
+          <span class="subtitle_text_field_span">
+            <label for="textVersions_3">{{ languages[2].code }}</label>
+            <input type="text" id="textVersions_3" class="subtitle_text_field" [formControl]="textVersions3"
+            placeholder="EN Subtitle Text" (keypress)="toggleButtonOn()">
+          </span>
+        </li>
+        <li>
+          <input type="text" name="tc_out" class="tc_viewer"
+          value="{{ subtitle.tc_out | mediaTimecode }}" readonly>
+          <button mat-icon-button matTooltip="Update Subtitle Out-point"
+          type="button" (click)="setSubtitleOutPoint(); toggleButtonOn()">
+            <mat-icon mat-list-icon>navigation</mat-icon>
           </button>
-        </form>
-      </li>
-    </ul>
-
+        </li>
+        <li>
+          <div class="form_buttons">
+            <button mat-icon-button type="submit" [disabled]="disableButton">
+              <mat-icon mat-list-icon>done</mat-icon>
+            </button>
+            <button mat-icon-button type="reset" (click)="onReset()">
+              <mat-icon mat-list-icon>close</mat-icon>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </form>
   </div> <!-- /subtitle_form -->
 </ng-template>

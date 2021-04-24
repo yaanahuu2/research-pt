@@ -165,3 +165,7 @@ ul.timeline_items {
 .mat-progress-bar {
   height: 10px;
 }
+
+.timeline_relation {
+  cursor: pointer;
+}

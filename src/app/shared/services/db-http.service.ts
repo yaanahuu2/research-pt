@@ -6,7 +6,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ZoteroItemNotes } from '../../pages/notes/zotero-item-notes';
 import { AlbumItems } from '../../pages/albums/albums';
 import { Albums } from '../../pages/albums/albums';
-// import { Subtitle } from '../../components/video/subtitles/i-subtitle';
+import { Subtitle } from '../../components/video/subtitles/i-subtitle';
+import { Language } from '../../components/video/subtitles/i-language';
 import { CategoryTree } from '../../components/category-tree/category-tree';
 import { TimelineItem } from '../../components/timeline/i-timeline-item';
 
@@ -71,27 +72,35 @@ export class DbHttpService {
       );
   }
 
-  // getSubtitles(): Observable<Subtitle[]> {
-  //   const url = `${environment.apiUrl}/subtitles`;
-  //   return this.http.get<Subtitle[]>(url).pipe(
-  //       tap(_ => console.log('fetched subtitles')),
-  //       catchError(this.handleError<Subtitle[]>('getSubtitles', []))
-  //     );
-  // }
-  //
+  getSubtitles(): Observable<Subtitle[]> {
+    const url = `${environment.apiUrl}/subtitles`;
+    return this.http.get<Subtitle[]>(url).pipe(
+        tap(_ => console.log('fetched subtitles')),
+        catchError(this.handleError<Subtitle[]>('getSubtitles', []))
+      );
+  }
+
+  getLanguages(): Observable<Language[]> {
+    const url = `${environment.apiUrl}/languages`;
+    return this.http.get<Language[]>(url).pipe(
+        tap(_ => console.log('fetched Languages')),
+        catchError(this.handleError<Language[]>('getLanguages', []))
+      );
+  }
+
   // addSubtitle(subtitle: Subtitle): Observable<Subtitle> {
   //   return this.http.post<Subtitle>(environment.apiUrl + '/subtitles', subtitle).pipe(
   //     tap((newSubtitle: Subtitle) => console.log(`added subtitle w/ id=${newSubtitle.id}`)),
   //     catchError(this.handleError<Subtitle>('addSubtitle'))
   //   );
   // }
-  //
-  // updateSubtitle(subtitle: Subtitle): Observable<any> {
-  //   return this.http.put(environment.apiUrl + '/subtitles', subtitle).pipe(
-  //     tap(_ => console.log(`updated subtitle id=${subtitle.id}`)),
-  //     catchError(this.handleError<any>("updateSubtitle"))
-  //   );
-  // }
+
+  updateSubtitle(subtitle: Subtitle): Observable<any> {
+    return this.http.put(environment.apiUrl + '/subtitles', subtitle).pipe(
+      tap(_ => console.log(`updated subtitle id=${subtitle.id}`)),
+      catchError(this.handleError<any>("updateSubtitle"))
+    );
+  }
 
   getTimelineItems(): Observable<TimelineItem[]> {
     const url = `${environment.apiUrl}/timeline_items`;

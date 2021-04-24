@@ -6,6 +6,9 @@ import { DbHttpService } from '../../shared/services/db-http.service';
 import { StripHtmlPipe } from '../../shared/pipes/strip-html.pipe';
 import { SortDatePipe } from '../../shared/pipes/sort.pipe';
 import { TimelineItem } from './i-timeline-item';
+import { ZoteroItem } from './i-zotero-item';
+import { MatDialog } from '@angular/material/dialog';
+import { TimelineDialogComponent } from './timeline-dialog/timeline-dialog.component';
 
 @Component({
   selector: 'app-timeline',
@@ -21,6 +24,7 @@ export class TimelineComponent implements OnInit {
   isLoading: boolean = true;
 
   constructor(
+    public dialog: MatDialog,
     private dbHttpService: DbHttpService,
     private stripHtml: StripHtmlPipe,
     private sortDate: SortDatePipe
@@ -42,22 +46,6 @@ export class TimelineComponent implements OnInit {
       this.isLoading = false;
     });
   }
-
-
-  // getItem(keys: string): void {
-  //   var keys: string[] = ['4SEGTKV4', 'IDPZHNET', 'DCTQ4C3G'];
-  //   const request = (key: string) => from(api(this.auth_key).library('group', this.group).items(key).get());
-  //   forkJoin(
-  //     keys.map(key => request(key))
-  //   );
-  // }
-
-  // getItem(key: string): Observable<any> {
-  //   var item: any;
-  //
-  //   const item = from(api(this.auth_key).library('group', this.group).items(key).get())
-  //   return item;
-  // }
 
   getEventsFromZotero(data): any {
     const request = (key: string) => api(this.auth_key).library('group', this.group).items(key).get();
@@ -96,16 +84,31 @@ export class TimelineComponent implements OnInit {
       }
 
     });
-
-    // this.timelineItems.sort(function(a, b) {
-    //     var dateA = new Date(a.datetime);
-    //     var dateB = new Date(b.datetime);
-    //     return (dateA < dateB) ? -1 : (dateA > dateB) ? 1 : 0;
-    // });
   }
 
   getItemRelation(key) {
     console.log(key);
+
+  }
+
+  openItemDialog(relation) {
+    var title: string = relation.getData().itemType == 'note' ? 'Note' : relation.getData().title;
+
+    let itemRelation: ZoteroItem = {
+      key: relation.getData().key,
+      date: relation.getData().date,
+      title: title,
+      note: relation.getData().note,
+      itemType: relation.getData().itemType,
+      url: relation.getData().url,
+      tags: relation.getData().tags,
+      parentItem: relation.getData().parentItem,
+      abstract: relation.getData().abstract
+    }
+
+    let dialogRef = this.dialog.open(TimelineDialogComponent, {
+      data: itemRelation
+    });
 
   }
 

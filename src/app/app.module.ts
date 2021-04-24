@@ -34,13 +34,14 @@ import { AlbumComponent } from './pages/album/album.component';
 import { CategoryTreeComponent } from './components/category-tree/category-tree.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
-// import { SubtitlesComponent } from './components/video/subtitles/subtitles.component';
-// import { VideoComponent } from './components/video/video.component';
+import { VideoComponent } from './components/video/video.component';
+import { SubtitleComponent } from './components/video/subtitle/subtitle.component';
+import { SubtitlesComponent } from './components/video/subtitles/subtitles.component';
+// import { SubtitleFormComponent } from './components/video/subtitle-form/subtitle-form.component';
 import { TesterComponent } from './pages/tester/tester.component';
 import { SortDatePipe } from './shared/pipes/sort.pipe';
-// import { SubtitleComponent } from './components/video/subtitle/subtitle.component';
-// import { SubtitleFormComponent } from './components/video/subtitle-form/subtitle-form.component';
-// import { MediaTimecodePipe } from './shared/pipes/media-timecode.pipe';
+import { TimelineDialogComponent } from './components/timeline/timeline-dialog/timeline-dialog.component';
+import { MediaTimecodePipe } from './shared/pipes/media-timecode.pipe';
 
 @NgModule({
   declarations: [
@@ -63,13 +64,14 @@ import { SortDatePipe } from './shared/pipes/sort.pipe';
     CategoryTreeComponent,
     CategoriesComponent,
     TimelineComponent,
-    // VideoComponent,
-    // SubtitlesComponent,
+    VideoComponent,
+    SubtitleComponent,
+    SubtitlesComponent,
+    // SubtitleFormComponent,
     TesterComponent,
     SortDatePipe,
-    // SubtitleComponent,
-    // SubtitleFormComponent,
-    // MediaTimecodePipe,
+    TimelineDialogComponent,
+    MediaTimecodePipe,
   ],
   imports: [
     CommonModule,
@@ -90,7 +92,7 @@ import { SortDatePipe } from './shared/pipes/sort.pipe';
       DbInMemoryDataService, { dataEncapsulation: false }
     )
   ],
-  providers: [MapDataService, StripHtmlPipe, SortDatePipe ], // MediaTimecodePipe
+  providers: [MapDataService, StripHtmlPipe, SortDatePipe, MediaTimecodePipe ], // MediaTimecodePipe
   entryComponents: [MapHTMLMarkerComponent],
   bootstrap: [AppComponent]
 })

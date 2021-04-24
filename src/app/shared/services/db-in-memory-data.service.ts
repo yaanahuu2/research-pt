@@ -101,25 +101,31 @@ export class DbInMemoryDataService implements InMemoryDbService {
 
     const subtitles = [
       { id: 1, tc_in: 4, tc_out: 6, text_versions: [
-        { lang: 1, text: 'TS: My daughter and her husband brought him home' },
+        { lang: 1, text: 'XK: My daughter and her husband brought him home' },
         { lang: 2, text: 'Inter: My daughter and her husband brought him home' },
         { lang: 3, text: 'EN: My daughter and her husband brought him home' }
       ]},
-      { id: 1, tc_in: 4, tc_out: 6, text_versions: [
-        { lang: 1, text: 'TS: and then grandpa was holding him and he said' },
+      { id: 2, tc_in: 7, tc_out: 9, text_versions: [
+        { lang: 1, text: 'XK: and then grandpa was holding him and he said' },
         { lang: 2, text: 'Inter: and then grandpa was holding him and he said' },
         { lang: 3, text: 'EN: and then grandpa was holding him and he said' }
       ]},
-      { id: 1, tc_in: 4, tc_out: 6, text_versions: [
-        { lang: 1, text: 'TS: you\'re going to be a great hunter, boy' },
+      { id: 3, tc_in: 10, tc_out: 13, text_versions: [
+        { lang: 1, text: 'XK: you\'re going to be a great hunter, boy' },
         { lang: 2, text: 'Inter: you\'re going to be a great hunter, boy' },
         { lang: 3, text: 'EN: you\'re going to be a great hunter, boy' }
       ]},
-      { id: 1, tc_in: 4, tc_out: 6, text_versions: [
-        { lang: 1, text: 'TS: Anybody who can throw a hatched and sue you' },
-        { lang: 2, text: 'Inter: Anybody who can throw a hatched and sue you' },
-        { lang: 3, text: 'EN: Anybody who can throw a hatched and sue you' }
+      { id: 4, tc_in: 15.5, tc_out: 19, text_versions: [
+        { lang: 1, text: 'XK: Anybody who can throw a hatchet and sue you' },
+        { lang: 2, text: 'Inter: Anybody who can throw a hatchet and sue you' },
+        { lang: 3, text: 'EN: Anybody who can throw a hatchet and sue you' }
       ]}
+    ];
+
+    const languages = [
+      { id: 1, language: 'Xaayda Kil', code: 'XK' },
+      { id: 2, language: 'Inter Lingual Xaayda Kil - English', code: 'XK-EN' },
+      { id: 3, language: 'English', code: 'EN' }
     ];
 
     const timeline_items = [
@@ -138,6 +144,7 @@ export class DbInMemoryDataService implements InMemoryDbService {
       category_trees,
       category_relationships,
       subtitles,
+      languages,
       timeline_items
     };
   }
