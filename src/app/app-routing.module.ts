@@ -10,12 +10,14 @@ import { AlbumsComponent } from './pages/albums/albums.component';
 import { AlbumComponent } from './pages/album/album.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { TesterComponent } from './pages/tester/tester.component';
+import { ShowvideoComponent } from './pages/showvideo/showvideo.component';
 
 const routes: Routes = [
   {"path":"", "component": LoginComponent},
   {"path":"lookbooks","component": LookbooksComponent},
   {"path":"lookbook/:id", "component": LookbookComponent},
   {"path":"test", "component": TesterComponent},
+  {"path":"video", "component": ShowvideoComponent},
   {"path":"map", "component": MapComponent},
   {"path":"albums", "component": AlbumsComponent},
   {"path":"album/:id", "component": AlbumComponent},

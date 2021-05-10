@@ -42,6 +42,7 @@ import { TesterComponent } from './pages/tester/tester.component';
 import { SortDatePipe } from './shared/pipes/sort.pipe';
 import { TimelineDialogComponent } from './components/timeline/timeline-dialog/timeline-dialog.component';
 import { MediaTimecodePipe } from './shared/pipes/media-timecode.pipe';
+import { ShowvideoComponent } from './pages/showvideo/showvideo.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { MediaTimecodePipe } from './shared/pipes/media-timecode.pipe';
     SortDatePipe,
     TimelineDialogComponent,
     MediaTimecodePipe,
+    ShowvideoComponent,
   ],
   imports: [
     CommonModule,

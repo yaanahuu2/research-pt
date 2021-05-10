@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { CollectionsNav } from '../collectionsnav';
+import { ICollectionsNav } from '../ICollectionsNav';
 
 @Component({
   selector: 'app-material-tree',
@@ -16,14 +16,14 @@ export class MaterialTreeComponent {
   // @Output() hideLoadingItems = new EventEmitter<boolean>();
   activeNode: any;
 
-  treeControl = new NestedTreeControl<CollectionsNav>(node => node.children);
-  @Input() nestedDataSource = new MatTreeNestedDataSource<CollectionsNav>();
+  treeControl = new NestedTreeControl<ICollectionsNav>(node => node.children);
+  @Input() nestedDataSource = new MatTreeNestedDataSource<ICollectionsNav>();
 
   constructor() { }
 
-  hasChild = (_: number, node: CollectionsNav) => !!node.children && node.children.length > 0;
+  hasChild = (_: number, node: ICollectionsNav) => !!node.children && node.children.length > 0;
 
-  private _getChildren = (node: CollectionsNav) => node.children;
+  private _getChildren = (node: ICollectionsNav) => node.children;
 
   loadCollectionItems(key: string, name: string) {
     this.collectionKey.emit(key);

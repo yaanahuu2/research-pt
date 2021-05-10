@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import api from 'zotero-api-client';
 import { environment } from '../../../environments/environment';
-import { CollectionsNav } from './collectionsnav';
+import { ICollectionsNav } from './ICollectionsNav';
+import { ZoteroService } from '../../shared/services/zotero.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ZoteroDialogContComponent } from './zotero-dialog-cont/zotero-dialog-cont.component';
 
@@ -13,19 +14,18 @@ import { ZoteroDialogContComponent } from './zotero-dialog-cont/zotero-dialog-co
 })
 export class ZoteroComponent implements OnInit {
 
-  response: any;
-  auth_key = environment.auth_key;
-  group = environment.group;
-  resourceTypeKey: string = '5VYN8W7C';
-  resourceTypesNav: CollectionsNav[];
-  filmCategoriesNav: CollectionsNav[];
+  resourceTypesNav: ICollectionsNav[];
+  filmCategoriesNav: ICollectionsNav[];
   navType: string = '';
   collectionName: string;
   zoteroItems: any;
   hideLoadingCollections = true;
   hideLoadingItems = true;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    private zoteroService: ZoteroService
+  ) { }
 
   ngOnInit(): void {
     this.getCollections();
@@ -33,26 +33,10 @@ export class ZoteroComponent implements OnInit {
 
   getCollections() {
     this.hideLoadingCollections = false;
-    var collections = [];
-
-    this.response = api(this.auth_key).library('group', this.group).collections().get({ limit: 1000 });
-    this.response.then(data => {
-      collections = data.raw;
-      collections = this.sortCollectionsKeys(collections);
-      this.resourceTypesNav = this.createCollectionNav(collections, 'types');
-      // this.resourceTypesNav.forEach(item => console.log('1 ' + item.data.name));
-
-      this.filmCategoriesNav = this.createCollectionNav(collections, 'film');
-      // this.filmCategoriesNav.forEach(item => console.log('2 ' + item.data.name));
-
-      this.resourceTypesNav = this.getNestedChildren(this.resourceTypesNav, false);
-      this.filmCategoriesNav = this.getNestedChildren(this.filmCategoriesNav, false);
-
-      this.resourceTypesNav = this.sortCollectionsNames(this.resourceTypesNav);
-      this.filmCategoriesNav = this.sortCollectionsNames(this.filmCategoriesNav);
-      this.hideLoadingCollections = true;
-    });
-
+    const collections = this.zoteroService.getCollections();
+    this.resourceTypesNav = collections.resourceTypesNav;
+    this.filmCategoriesNav = collections.filmCategoriesNav;
+    this.hideLoadingCollections = true;
   }
 
   getCollectionItems(collectionKey) {
@@ -162,7 +146,7 @@ export class ZoteroComponent implements OnInit {
     for(var i in arr) {
       // console.log(arr[i].data.parentCollection + ' : ' + arr[i].data.name);
       if(arr[i].data.parentCollection == parent) {
-        var outVar: CollectionsNav = {
+        var outVar: ICollectionsNav = {
           key: arr[i].data.key,
           name: arr[i].data.name,
           data: arr[i].data

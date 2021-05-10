@@ -49,7 +49,7 @@ button {
 }
 
 .controls {
-  width: 100%;
+  width: 80%;
   float: left;
   position: relative;
 }
@@ -59,7 +59,7 @@ button {
 }
 
 .video_container {
-  width: 100%;
+  width: 80%;
   min-height: 430px;
 }
 
