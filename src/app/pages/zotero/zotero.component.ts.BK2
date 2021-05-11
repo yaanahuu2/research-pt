@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import api from 'zotero-api-client';
 import { environment } from '../../../environments/environment';
-import { ICollectionsNav } from './ICollectionsNav';
+import { CollectionsNav } from './collectionsnav';
 import { MatDialog } from '@angular/material/dialog';
 import { ZoteroDialogContComponent } from './zotero-dialog-cont/zotero-dialog-cont.component';
 
@@ -15,8 +15,8 @@ export class ZoteroComponent implements OnInit {
   response: any;
   auth_key = environment.auth_key;
   group = environment.group;
-  resourceTypesNav: ICollectionsNav[];
-  filmCategoriesNav: ICollectionsNav[];
+  resourceTypesNav: CollectionsNav[];
+  filmCategoriesNav: CollectionsNav[];
   collectionName: string;
   zoteroItems: any;
   hideLoadingCollections = true;
@@ -120,7 +120,7 @@ export class ZoteroComponent implements OnInit {
           }
         }
 
-        var outVar: ICollectionsNav = {
+        var outVar: CollectionsNav = {
           key: arr[i].data.key,
           name: arr[i].data.name
         }

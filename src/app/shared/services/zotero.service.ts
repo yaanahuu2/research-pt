@@ -1,26 +1,34 @@
-// Still in progress...
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap, retry, from } from 'rxjs/operators';
+import { catchError, tap, retry } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { ICollectionsNav } from './../../pages/zotero/ICollectionsNav';
+import { ICollectionsNav } from '../../pages/zotero/ICollectionsNav';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ZoteroApiService {
+export class ZoteroService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getCollections() {
-    const url = `${environment.apiUrl}/`;
-    return this.http.get<ICollectionsNav[]>(url).pipe(
-        tap(_ => console.log('fetched zotero collections')),
-        catchError(this.handleError<ICollectionsNav[]>('getCollections', []))
+  getCollections(): Observable<any[]> {
+    console.log('getting collections from ' + environment.twAPIurl);
+
+    const url = 'https://jsonplaceholder.typicode.com/photos';
+    return this.http.get<any[]>(url).pipe(
+        tap(res => console.log(res)),
+        catchError(this.handleError<any[]>('getCollections', []))
       );
   }
+
+  // getNotes(key: string): Observable<ZoteroItemNotes[]> {
+  //   const url = `${environment.apiUrl}/notes?key=${key}`;
+  //   return this.http.get<ZoteroItemNotes[]>(url).pipe(
+  //       tap(_ => console.log('fetched zotero items for key=${key}')),
+  //       catchError(this.handleError<ZoteroItemNotes[]>('getNotes key=${key}', []))
+  //     );
+  // }
 
   /**
    * Handle Http operation that failed.
